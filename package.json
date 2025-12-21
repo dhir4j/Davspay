@@ -1,0 +1,29 @@
+{
+  "name": "davspay",
+  "version": "1.0.0",
+  "description": "Davspay Solution - Modern UPI Payment Gateway Platform",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "keywords": ["payment", "gateway", "upi", "davspay"],
+  "author": "Davspay Solution",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^24.10.2",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "framer-motion": "^12.23.25",
+    "next": "^16.0.8",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
+    "react-icons": "^5.5.0",
+    "styled-components": "^6.1.19",
+    "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "@types/styled-components": "^5.1.36"
+  }
+}
