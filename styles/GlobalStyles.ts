@@ -1,9 +1,8 @@
 'use client';
 
 import { createGlobalStyle } from 'styled-components';
-import { Theme } from './themes/theme';
 
-const GlobalStyles = createGlobalStyle<{ theme: Theme }>`
+const GlobalStyles = createGlobalStyle`
   * {
     margin: 0;
     padding: 0;

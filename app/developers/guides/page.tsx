@@ -228,14 +228,14 @@ export default function IntegrationGuides() {
                   Install the Davspay SDK for your preferred language:
                 </StepDescription>
                 <CodeBlock>
-                  <Code>{`# Node.js
+                  <Code dangerouslySetInnerHTML={{ __html: `# Node.js
 npm install @davspay/node-sdk
 
 # Python
 pip install davspay
 
 # PHP
-composer require davspay/sdk`}</Code>
+composer require davspay/sdk` }} />
                 </CodeBlock>
               </Step>
 
@@ -245,7 +245,7 @@ composer require davspay/sdk`}</Code>
                   Initialize the SDK and create a payment:
                 </StepDescription>
                 <CodeBlock>
-                  <Code>{`const Davspay = require('@davspay/node-sdk');
+                  <Code dangerouslySetInnerHTML={{ __html: `const Davspay = require('@davspay/node-sdk');
 
 // Initialize with your test API key
 const davspay = new Davspay({
@@ -267,7 +267,7 @@ const payment = await davspay.payments.create({
 });
 
 // Redirect customer to payment URL
-console.log(payment.payment_url);</Code>
+console.log(payment.payment_url);` }} />
                 </CodeBlock>
               </Step>
 
@@ -277,7 +277,7 @@ console.log(payment.payment_url);</Code>
                   After payment, the customer will be redirected to your callback_url with payment status:
                 </StepDescription>
                 <CodeBlock>
-                  <Code>{`app.get('/callback', async (req, res) => {
+                  <Code dangerouslySetInnerHTML={{ __html: `app.get('/callback', async (req, res) => {
   const { payment_id, status } = req.query;
 
   // Verify payment status from our server
@@ -290,7 +290,7 @@ console.log(payment.payment_url);</Code>
     // Payment failed or pending
     res.send('Payment failed or pending');
   }
-});</Code>
+});` }} />
                 </CodeBlock>
               </Step>
             </StepContainer>
@@ -330,7 +330,7 @@ console.log(payment.payment_url);</Code>
                   Create an endpoint to receive webhook notifications:
                 </StepDescription>
                 <CodeBlock>
-                  <Code>{`const express = require('express');
+                  <Code dangerouslySetInnerHTML={{ __html: `const express = require('express');
 const app = express();
 
 app.post('/webhooks/davspay',
@@ -373,7 +373,7 @@ app.post('/webhooks/davspay',
     // Return 200 to acknowledge receipt
     res.status(200).send('OK');
   }
-);</Code>
+);` }} />
                 </CodeBlock>
               </Step>
 

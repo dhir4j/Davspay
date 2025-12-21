@@ -16,8 +16,12 @@ const FooterContent = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr;
   gap: ${({ theme }) => theme.spacing.xl};
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
@@ -68,7 +72,6 @@ const FooterAddress = styled.div`
   color: ${({ theme }) => theme.colors.textSecondary};
   font-size: 0.875rem;
   line-height: 1.6;
-  margin-top: ${({ theme }) => theme.spacing.md};
 `;
 
 const SocialLinks = styled.div`
@@ -135,12 +138,7 @@ const Footer = () => {
       <FooterContent>
         <FooterSection>
           <Logo>Davspay Solution</Logo>
-          <FooterText>
-            Modern UPI payment gateway solution for businesses of all sizes.
-            Fast, secure, and reliable payment processing.
-          </FooterText>
           <FooterAddress>
-            <strong>Davspay Solution</strong><br />
             7th Floor, Block E-12/8,<br />
             Vrindavan Tower, Sanjay Palace,<br />
             Agra, Uttar Pradesh<br />

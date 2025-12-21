@@ -86,6 +86,11 @@ interface CardComponentProps extends CardProps {
   children: React.ReactNode;
   onClick?: () => void;
   className?: string;
+  variants?: any;
+  initial?: any;
+  whileInView?: any;
+  viewport?: any;
+  transition?: any;
 }
 
 const Card: React.FC<CardComponentProps> = ({
@@ -95,6 +100,11 @@ const Card: React.FC<CardComponentProps> = ({
   padding,
   onClick,
   className,
+  variants,
+  initial,
+  whileInView,
+  viewport,
+  transition,
 }) => {
   return (
     <StyledCard
@@ -103,10 +113,11 @@ const Card: React.FC<CardComponentProps> = ({
       padding={padding}
       onClick={onClick}
       className={className}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
+      variants={variants}
+      initial={initial || { opacity: 0, y: 20 }}
+      whileInView={whileInView || { opacity: 1, y: 0 }}
+      viewport={viewport || { once: true }}
+      transition={transition || { duration: 0.5 }}
     >
       {children}
     </StyledCard>
