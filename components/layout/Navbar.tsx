@@ -170,9 +170,7 @@ const Navbar = () => {
     { name: 'Home', href: '/' },
     { name: 'Features', href: '/#features' },
     { name: 'Developers', href: '/developers' },
-    { name: 'Pricing', href: '/pricing' },
     { name: 'About', href: '/about' },
-    { name: 'Contact', href: '/contact' },
   ];
 
   return (
@@ -205,11 +203,6 @@ const Navbar = () => {
         <RightSection>
           <NavLinks>
             <Link href="/login">
-              <Button variant="outline" size="sm">
-                Sign In
-              </Button>
-            </Link>
-            <Link href="/pricing">
               <Button variant="primary" size="sm">
                 Get Started
               </Button>

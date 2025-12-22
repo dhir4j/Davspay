@@ -11,7 +11,7 @@ const ShowcaseSection = styled.section`
   overflow: hidden;
 
   @media (max-width: 768px) {
-    padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.sm};
+    padding: ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.sm};
   }
 `;
 

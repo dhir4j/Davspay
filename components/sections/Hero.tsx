@@ -18,9 +18,10 @@ const HeroSection = styled.section`
   padding-top: calc(${({ theme }) => theme.spacing.xxl} + 70px);
 
   @media (max-width: 768px) {
-    padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.sm};
-    padding-top: calc(${({ theme }) => theme.spacing.xl} + 70px);
+    padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.sm};
+    padding-top: calc(${({ theme }) => theme.spacing.lg} + 60px);
     min-height: auto;
+    overflow-x: hidden;
   }
 `;
 
@@ -74,11 +75,17 @@ const Badge = styled(motion.div)`
 `;
 
 const Title = styled(motion.h1)`
-  font-size: clamp(2.5rem, 8vw, 5rem);
+  font-size: clamp(1.75rem, 6vw, 5rem);
   font-weight: 900;
-  line-height: 1.1;
+  line-height: 1.2;
   margin-bottom: ${({ theme }) => theme.spacing.md};
   font-family: ${({ theme }) => theme.fonts.secondary};
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+
+  @media (max-width: 768px) {
+    font-size: clamp(1.5rem, 8vw, 2.5rem);
+  }
 
   .gradient-text {
     background: ${({ theme }) => theme.colors.gradient};
@@ -117,6 +124,13 @@ const StatsContainer = styled(motion.div)`
   max-width: 900px;
   margin: 0 auto;
   margin-top: ${({ theme }) => theme.spacing.xxl};
+  width: 100%;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: ${({ theme }) => theme.spacing.md};
+    margin-top: ${({ theme }) => theme.spacing.lg};
+  }
 `;
 
 const StatCard = styled(motion.div)`

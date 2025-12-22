@@ -20,9 +20,10 @@ const FeaturesSection = styled.section`
   padding: ${({ theme }) => theme.spacing.xxl} ${({ theme }) => theme.spacing.md};
   background: ${({ theme }) => theme.colors.background};
   position: relative;
+  overflow-x: hidden;
 
   @media (max-width: 768px) {
-    padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.sm};
+    padding: ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.sm};
   }
 `;
 
@@ -165,6 +166,11 @@ const FeaturesGrid = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: ${({ theme }) => theme.spacing.lg};
   margin-top: ${({ theme }) => theme.spacing.xl};
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: ${({ theme }) => theme.spacing.md};
+  }
 `;
 
 const FeatureCard = styled(Card)`

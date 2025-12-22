@@ -18,6 +18,11 @@ const CarouselSection = styled.section`
   overflow: hidden;
   border-top: 1px solid ${({ theme }) => theme.colors.border};
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+  width: 100%;
+
+  @media (max-width: 768px) {
+    padding: ${({ theme }) => theme.spacing.md} 0;
+  }
 `;
 
 const CarouselTrack = styled.div`

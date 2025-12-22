@@ -8,9 +8,10 @@ import { FiChevronDown } from 'react-icons/fi';
 const FAQSection = styled.section`
   padding: ${({ theme }) => theme.spacing.xxl} ${({ theme }) => theme.spacing.md};
   background: ${({ theme }) => theme.colors.backgroundSecondary};
+  overflow-x: hidden;
 
   @media (max-width: 768px) {
-    padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.sm};
+    padding: ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.sm};
   }
 `;
 

@@ -213,8 +213,7 @@ const Footer = () => {
         <FooterSection>
           <FooterTitle>Company</FooterTitle>
           <FooterLink href="/about">About Us</FooterLink>
-          <FooterLink href="/contact">Contact</FooterLink>
-          <FooterLink href="/pricing">Pricing</FooterLink>
+          <FooterLink href="/developers">Developers</FooterLink>
           <FooterLink href="/#">Support</FooterLink>
         </FooterSection>
 

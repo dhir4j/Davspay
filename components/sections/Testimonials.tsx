@@ -8,9 +8,10 @@ import { useState, useEffect } from 'react';
 const TestimonialsSection = styled.section`
   padding: ${({ theme }) => theme.spacing.xxl} ${({ theme }) => theme.spacing.md};
   background: ${({ theme }) => theme.colors.background};
+  overflow-x: hidden;
 
   @media (max-width: 768px) {
-    padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.sm};
+    padding: ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.sm};
   }
 `;
 
@@ -97,11 +98,21 @@ const TestimonialCard = styled(motion.div)`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.md};
-  min-width: 380px;
+  min-width: 450px;
+  max-width: 450px;
   flex-shrink: 0;
+  height: 280px;
+
+  @media (max-width: 1024px) {
+    min-width: 400px;
+    max-width: 400px;
+  }
 
   @media (max-width: 768px) {
-    min-width: 300px;
+    min-width: 320px;
+    max-width: 320px;
+    height: auto;
+    padding: ${({ theme }) => theme.spacing.lg};
   }
 
   &:hover {
@@ -145,10 +156,19 @@ const StarRating = styled.div`
 
 const TestimonialText = styled.p`
   color: ${({ theme }) => theme.colors.textSecondary};
-  line-height: 1.8;
-  font-size: 1rem;
+  line-height: 1.6;
+  font-size: 0.95rem;
   flex-grow: 1;
   font-style: italic;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+
+  @media (max-width: 768px) {
+    font-size: 0.875rem;
+    -webkit-line-clamp: unset;
+  }
 `;
 
 const TestimonialAuthor = styled.div`
@@ -263,7 +283,9 @@ const Testimonials = () => {
           <CarouselWrapper>
             <CarouselTrack
               animate={{
-                x: typeof window !== 'undefined' && window.innerWidth >= 769 ? `-${currentIndex * (380 + 32)}px` : 0,
+                x: typeof window !== 'undefined' && window.innerWidth >= 769
+                  ? `-${currentIndex * (450 + 32)}px`
+                  : 0,
               }}
               transition={{
                 type: 'spring',
@@ -271,7 +293,12 @@ const Testimonials = () => {
                 damping: 30,
               }}
               drag={typeof window !== 'undefined' && window.innerWidth < 769 ? "x" : false}
-              dragConstraints={{ left: -((testimonials.length - 1) * 332), right: 0 }}
+              dragConstraints={{
+                left: typeof window !== 'undefined' && window.innerWidth < 769
+                  ? -((testimonials.length - 1) * (320 + 32))
+                  : 0,
+                right: 0
+              }}
               onDragStart={() => setIsDragging(true)}
               onDragEnd={() => setIsDragging(false)}
             >
