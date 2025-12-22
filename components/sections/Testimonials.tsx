@@ -1,8 +1,9 @@
 'use client';
 
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { motion } from 'framer-motion';
 import { FiStar } from 'react-icons/fi';
+import { useState, useEffect } from 'react';
 
 const TestimonialsSection = styled.section`
   padding: ${({ theme }) => theme.spacing.xxl} ${({ theme }) => theme.spacing.md};
@@ -57,14 +58,34 @@ const SectionDescription = styled(motion.p)`
   line-height: 1.8;
 `;
 
-const TestimonialsGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: ${({ theme }) => theme.spacing.lg};
+const CarouselContainer = styled.div`
+  position: relative;
+  overflow: hidden;
+  padding: ${({ theme }) => theme.spacing.lg} 0;
+`;
 
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
+const CarouselWrapper = styled.div`
+  display: flex;
+  gap: ${({ theme }) => theme.spacing.lg};
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: ${({ theme }) => theme.spacing.md} 0;
+
+  &::-webkit-scrollbar {
+    display: none;
   }
+
+  @media (min-width: 769px) {
+    overflow-x: hidden;
+  }
+`;
+
+const CarouselTrack = styled(motion.div)`
+  display: flex;
+  gap: ${({ theme }) => theme.spacing.lg};
+  width: fit-content;
 `;
 
 const TestimonialCard = styled(motion.div)`
@@ -76,11 +97,43 @@ const TestimonialCard = styled(motion.div)`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.md};
+  min-width: 380px;
+  flex-shrink: 0;
+
+  @media (max-width: 768px) {
+    min-width: 300px;
+  }
 
   &:hover {
     border-color: ${({ theme }) => theme.colors.primary};
     box-shadow: ${({ theme }) => theme.shadows.neon};
     transform: translateY(-5px);
+  }
+`;
+
+const DotsContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: ${({ theme }) => theme.spacing.sm};
+  margin-top: ${({ theme }) => theme.spacing.lg};
+
+  @media (min-width: 769px) {
+    display: none;
+  }
+`;
+
+const Dot = styled.button<{ $active: boolean }>`
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid ${({ theme }) => theme.colors.primary};
+  background: ${({ theme, $active }) => $active ? theme.colors.primary : 'transparent'};
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+
+  &:hover {
+    transform: scale(1.2);
   }
 `;
 
@@ -119,6 +172,9 @@ const AuthorRole = styled.p`
 `;
 
 const Testimonials = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+
   const testimonials = [
     {
       name: 'Rajesh Kumar',
@@ -158,6 +214,22 @@ const Testimonials = () => {
     },
   ];
 
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    if (!isDragging && window.innerWidth >= 769) {
+      const interval = setInterval(() => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
+      }, 5000);
+
+      return () => clearInterval(interval);
+    }
+  }, [isDragging, testimonials.length]);
+
+  const scrollToIndex = (index: number) => {
+    setCurrentIndex(index);
+  };
+
   return (
     <TestimonialsSection>
       <Container>
@@ -187,28 +259,56 @@ const Testimonials = () => {
           </SectionDescription>
         </SectionHeader>
 
-        <TestimonialsGrid>
-          {testimonials.map((testimonial, index) => (
-            <TestimonialCard
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 * index }}
+        <CarouselContainer>
+          <CarouselWrapper>
+            <CarouselTrack
+              animate={{
+                x: typeof window !== 'undefined' && window.innerWidth >= 769 ? `-${currentIndex * (380 + 32)}px` : 0,
+              }}
+              transition={{
+                type: 'spring',
+                stiffness: 300,
+                damping: 30,
+              }}
+              drag={typeof window !== 'undefined' && window.innerWidth < 769 ? "x" : false}
+              dragConstraints={{ left: -((testimonials.length - 1) * 332), right: 0 }}
+              onDragStart={() => setIsDragging(true)}
+              onDragEnd={() => setIsDragging(false)}
             >
-              <StarRating>
-                {[...Array(testimonial.rating)].map((_, i) => (
-                  <FiStar key={i} fill="currentColor" />
-                ))}
-              </StarRating>
-              <TestimonialText>"{testimonial.text}"</TestimonialText>
-              <TestimonialAuthor>
-                <AuthorName>{testimonial.name}</AuthorName>
-                <AuthorRole>{testimonial.role}</AuthorRole>
-              </TestimonialAuthor>
-            </TestimonialCard>
-          ))}
-        </TestimonialsGrid>
+              {testimonials.map((testimonial, index) => (
+                <TestimonialCard
+                  key={index}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 * index }}
+                >
+                  <StarRating>
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <FiStar key={i} fill="currentColor" />
+                    ))}
+                  </StarRating>
+                  <TestimonialText>"{testimonial.text}"</TestimonialText>
+                  <TestimonialAuthor>
+                    <AuthorName>{testimonial.name}</AuthorName>
+                    <AuthorRole>{testimonial.role}</AuthorRole>
+                  </TestimonialAuthor>
+                </TestimonialCard>
+              ))}
+            </CarouselTrack>
+          </CarouselWrapper>
+
+          <DotsContainer>
+            {testimonials.map((_, index) => (
+              <Dot
+                key={index}
+                $active={index === currentIndex}
+                onClick={() => scrollToIndex(index)}
+                aria-label={`Go to testimonial ${index + 1}`}
+              />
+            ))}
+          </DotsContainer>
+        </CarouselContainer>
       </Container>
     </TestimonialsSection>
   );

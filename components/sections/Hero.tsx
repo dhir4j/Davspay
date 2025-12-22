@@ -165,11 +165,15 @@ const StatLabel = styled.p`
 `;
 
 const HeroBottomImage = styled(motion.div)`
-  max-width: 600px;
+  max-width: 900px;
   margin: ${({ theme }) => theme.spacing.xxl} auto 0;
   border-radius: ${({ theme }) => theme.borderRadius.xl};
   overflow: hidden;
   box-shadow: ${({ theme }) => theme.shadows.lg};
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
 `;
 
 const Hero = () => {
@@ -313,8 +317,8 @@ const Hero = () => {
             <Image
               src="/images/bottom_of_hero.gif"
               alt="Payment Animation"
-              width={600}
-              height={200}
+              width={900}
+              height={400}
               style={{ width: '100%', height: 'auto' }}
               unoptimized
             />

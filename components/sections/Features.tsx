@@ -81,6 +81,11 @@ const WhyDavspaySection = styled.div`
     grid-template-columns: 1fr;
     gap: ${({ theme }) => theme.spacing.xl};
   }
+
+  @media (max-width: 768px) {
+    margin: ${({ theme }) => theme.spacing.xl} 0;
+    gap: ${({ theme }) => theme.spacing.lg};
+  }
 `;
 
 const ContentColumn = styled.div`

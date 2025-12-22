@@ -30,6 +30,10 @@ const NavContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media (max-width: 768px) {
+    padding: 0.75rem ${({ theme }) => theme.spacing.sm};
+  }
 `;
 
 const Logo = styled(Link)`
@@ -37,6 +41,13 @@ const Logo = styled(Link)`
   align-items: center;
   cursor: pointer;
   transition: all 0.3s ease;
+
+  img {
+    @media (max-width: 768px) {
+      width: 140px !important;
+      height: 50px !important;
+    }
+  }
 
   &:hover {
     transform: scale(1.05);
@@ -176,9 +187,10 @@ const Navbar = () => {
           <Image
             src="/images/logo.png"
             alt="Davspay Solutions"
-            width={150}
-            height={40}
+            width={180}
+            height={60}
             priority
+            style={{ objectFit: 'contain' }}
           />
         </Logo>
 
