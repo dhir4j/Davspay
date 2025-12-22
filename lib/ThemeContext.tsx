@@ -26,28 +26,13 @@ interface ThemeProviderProps {
 }
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const [isDark, setIsDark] = useState(true); // Default to dark theme
-
-  useEffect(() => {
-    // Check for saved theme preference or system preference
-    const savedTheme = localStorage.getItem('davspay-theme');
-    if (savedTheme) {
-      setIsDark(savedTheme === 'dark');
-    } else {
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      setIsDark(prefersDark);
-    }
-  }, []);
+  const [isDark, setIsDark] = useState(false); // Always use light theme
 
   const toggleTheme = () => {
-    setIsDark(prev => {
-      const newTheme = !prev;
-      localStorage.setItem('davspay-theme', newTheme ? 'dark' : 'light');
-      return newTheme;
-    });
+    // Theme toggle disabled - always use light theme
   };
 
-  const theme = isDark ? darkTheme : lightTheme;
+  const theme = lightTheme; // Always use light theme
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme, isDark }}>

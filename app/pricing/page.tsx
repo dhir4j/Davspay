@@ -22,6 +22,11 @@ const HeroSection = styled.section`
   position: relative;
   overflow: hidden;
 
+  @media (max-width: 768px) {
+    padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.sm};
+    padding-top: calc(${({ theme }) => theme.spacing.xl} + 70px);
+  }
+
   &::before {
     content: '';
     position: absolute;
@@ -70,41 +75,76 @@ const FormSection = styled.section`
   padding: ${({ theme }) => theme.spacing.xxl} ${({ theme }) => theme.spacing.md};
   background: ${({ theme }) => theme.colors.background};
   min-height: 60vh;
+
+  @media (max-width: 768px) {
+    padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.sm};
+  }
 `;
 
 const ContactInfo = styled(motion.div)`
   text-align: center;
   margin-bottom: ${({ theme }) => theme.spacing.xl};
-  padding: ${({ theme }) => theme.spacing.lg};
+  padding: ${({ theme }) => theme.spacing.xl};
   background: ${({ theme }) => theme.colors.surface}80;
   backdrop-filter: blur(10px);
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: ${({ theme }) => theme.spacing.sm};
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: ${({ theme }) => theme.colors.primary};
+    box-shadow: ${({ theme }) => theme.shadows.neon};
+  }
+`;
+
+const EmailContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: ${({ theme }) => theme.spacing.md};
+  flex-wrap: wrap;
+  margin-bottom: ${({ theme }) => theme.spacing.sm};
 
   svg {
     color: ${({ theme }) => theme.colors.primary};
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: ${({ theme }) => theme.spacing.sm};
   }
 `;
 
 const EmailLink = styled.a`
   color: ${({ theme }) => theme.colors.primary};
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: 1.5rem;
+  font-weight: 700;
   text-decoration: none;
   transition: all 0.3s ease;
+  word-break: break-word;
+  font-family: ${({ theme }) => theme.fonts.secondary};
 
   &:hover {
     text-shadow: 0 0 20px ${({ theme }) => theme.colors.primary}60;
+    transform: scale(1.02);
   }
+
+  @media (max-width: 768px) {
+    font-size: 1.125rem;
+  }
+`;
+
+const EmailDescription = styled.p`
+  color: ${({ theme }) => theme.colors.textSecondary};
+  font-size: 0.95rem;
+  margin-top: ${({ theme }) => theme.spacing.sm};
+  line-height: 1.6;
 `;
 
 const FormContainer = styled(motion.div)`
@@ -121,6 +161,10 @@ const FormContainer = styled(motion.div)`
     border-color: ${({ theme }) => theme.colors.primary};
     box-shadow: ${({ theme }) => theme.shadows.neon};
   }
+
+  @media (max-width: 768px) {
+    padding: ${({ theme }) => theme.spacing.lg};
+  }
 `;
 
 const Form = styled.form`
@@ -133,6 +177,11 @@ const FormRow = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: ${({ theme }) => theme.spacing.lg};
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: ${({ theme }) => theme.spacing.md};
+  }
 `;
 
 const FormGroup = styled.div`
@@ -265,10 +314,15 @@ export default function Pricing() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <FiMail />
-            <EmailLink href="mailto:contact@davspay.com">
-              contact@davspay.com
-            </EmailLink>
+            <EmailContainer>
+              <FiMail />
+              <EmailLink href="mailto:contact@davspay.com">
+                contact@davspay.com
+              </EmailLink>
+            </EmailContainer>
+            <EmailDescription>
+              Reach out to our sales team for custom pricing and enterprise solutions
+            </EmailDescription>
           </ContactInfo>
 
           <FormContainer

@@ -11,6 +11,8 @@ import {
   FiBarChart,
   FiLock,
   FiClock,
+  FiCheckCircle,
+  FiTrendingUp,
 } from 'react-icons/fi';
 import Card from '@/components/ui/Card';
 
@@ -18,6 +20,10 @@ const FeaturesSection = styled.section`
   padding: ${({ theme }) => theme.spacing.xxl} ${({ theme }) => theme.spacing.md};
   background: ${({ theme }) => theme.colors.background};
   position: relative;
+
+  @media (max-width: 768px) {
+    padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.sm};
+  }
 `;
 
 const Container = styled.div`
@@ -62,6 +68,91 @@ const SectionDescription = styled(motion.p)`
   max-width: 700px;
   margin: 0 auto;
   line-height: 1.8;
+`;
+
+const WhyDavspaySection = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: ${({ theme }) => theme.spacing.xxl};
+  align-items: center;
+  margin: ${({ theme }) => theme.spacing.xxl} 0;
+
+  @media (max-width: 968px) {
+    grid-template-columns: 1fr;
+    gap: ${({ theme }) => theme.spacing.xl};
+  }
+`;
+
+const ContentColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.md};
+`;
+
+const VideoColumn = styled(motion.div)`
+  border-radius: ${({ theme }) => theme.borderRadius.xl};
+  overflow: hidden;
+  box-shadow: ${({ theme }) => theme.shadows.lg};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  background: ${({ theme }) => theme.colors.surface};
+
+  video {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+`;
+
+const BenefitItem = styled(motion.div)`
+  display: flex;
+  align-items: flex-start;
+  gap: ${({ theme }) => theme.spacing.md};
+  padding: ${({ theme }) => theme.spacing.md};
+  background: ${({ theme }) => theme.colors.surface};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: ${({ theme }) => theme.colors.primary};
+    box-shadow: ${({ theme }) => theme.shadows.md};
+    transform: translateX(5px);
+  }
+`;
+
+const BenefitIcon = styled.div`
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  background: ${({ theme }) => theme.colors.primary}20;
+  color: ${({ theme }) => theme.colors.primary};
+  flex-shrink: 0;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
+const BenefitContent = styled.div`
+  flex: 1;
+`;
+
+const BenefitTitle = styled.h4`
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.text};
+  margin-bottom: 0.25rem;
+  font-family: ${({ theme }) => theme.fonts.secondary};
+`;
+
+const BenefitDescription = styled.p`
+  font-size: 0.875rem;
+  color: ${({ theme }) => theme.colors.textSecondary};
+  line-height: 1.6;
 `;
 
 const FeaturesGrid = styled.div`
@@ -156,6 +247,29 @@ const FeatureListItem = styled.li`
 `;
 
 const Features = () => {
+  const benefits = [
+    {
+      icon: <FiCheckCircle />,
+      title: 'Instant Payment Collection',
+      description: 'Collect payments instantly via UPI from all major apps with seamless integration.',
+    },
+    {
+      icon: <FiShield />,
+      title: 'Secure & Compliant',
+      description: 'RBI-certified platform with bank-grade security and PCI DSS compliance.',
+    },
+    {
+      icon: <FiTrendingUp />,
+      title: 'Higher Success Rates',
+      description: 'Achieve 98%+ transaction success rates with our optimized payment flows.',
+    },
+    {
+      icon: <FiZap />,
+      title: 'Real-time Settlements',
+      description: 'Get funds settled instantly without waiting for T+2 days.',
+    },
+  ];
+
   const features = [
     {
       icon: <FiZap />,
@@ -235,6 +349,60 @@ const Features = () => {
             Powerful features designed to simplify payments and accelerate your business growth
           </SectionDescription>
         </SectionHeader>
+
+        <WhyDavspaySection>
+          <ContentColumn>
+            <SectionTitle
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              style={{ textAlign: 'left', marginBottom: 0 }}
+            >
+              Why Choose <span className="gradient-text">Davspay?</span>
+            </SectionTitle>
+            <SectionDescription
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              style={{ marginLeft: 0, maxWidth: '100%' }}
+            >
+              Accept UPI payments seamlessly and boost your platform with our powerful payment gateway solution.
+            </SectionDescription>
+            {benefits.map((benefit, index) => (
+              <BenefitItem
+                key={index}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 * (index + 2) }}
+              >
+                <BenefitIcon>{benefit.icon}</BenefitIcon>
+                <BenefitContent>
+                  <BenefitTitle>{benefit.title}</BenefitTitle>
+                  <BenefitDescription>{benefit.description}</BenefitDescription>
+                </BenefitContent>
+              </BenefitItem>
+            ))}
+          </ContentColumn>
+
+          <VideoColumn
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+          >
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+            >
+              <source src="https://decentro-website-v2-assets.s3.ap-south-1.amazonaws.com/UPI+Collections+Header+Animation.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </VideoColumn>
+        </WhyDavspaySection>
 
         <FeaturesGrid>
           {features.map((feature, index) => (

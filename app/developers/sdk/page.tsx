@@ -20,6 +20,11 @@ const HeroSection = styled.section`
   padding-top: calc(${({ theme }) => theme.spacing.xl} + 70px);
   background: ${({ theme }) => theme.colors.background};
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+
+  @media (max-width: 768px) {
+    padding: ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.sm};
+    padding-top: calc(${({ theme }) => theme.spacing.lg} + 70px);
+  }
 `;
 
 const Container = styled.div`
@@ -45,6 +50,10 @@ const PageSubtitle = styled.p`
 
 const ContentSection = styled.section`
   padding: ${({ theme }) => theme.spacing.xxl} ${({ theme }) => theme.spacing.md};
+
+  @media (max-width: 768px) {
+    padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.sm};
+  }
 `;
 
 const LanguageGrid = styled.div`

@@ -3,6 +3,7 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { FiArrowRight, FiZap, FiShield, FiTrendingUp } from 'react-icons/fi';
 import Button from '@/components/ui/Button';
 
@@ -15,6 +16,12 @@ const HeroSection = styled.section`
   overflow: hidden;
   padding: ${({ theme }) => theme.spacing.xxl} ${({ theme }) => theme.spacing.md};
   padding-top: calc(${({ theme }) => theme.spacing.xxl} + 70px);
+
+  @media (max-width: 768px) {
+    padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.sm};
+    padding-top: calc(${({ theme }) => theme.spacing.xl} + 70px);
+    min-height: auto;
+  }
 `;
 
 const GlowOrb = styled(motion.div)<{ $top?: string; $left?: string; $color?: string }>`
@@ -157,6 +164,14 @@ const StatLabel = styled.p`
   color: ${({ theme }) => theme.colors.textSecondary};
 `;
 
+const HeroBottomImage = styled(motion.div)`
+  max-width: 600px;
+  margin: ${({ theme }) => theme.spacing.xxl} auto 0;
+  border-radius: ${({ theme }) => theme.borderRadius.xl};
+  overflow: hidden;
+  box-shadow: ${({ theme }) => theme.shadows.lg};
+`;
+
 const Hero = () => {
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -288,6 +303,22 @@ const Hero = () => {
               <StatLabel>Average Response Time</StatLabel>
             </StatCard>
           </StatsContainer>
+
+          <HeroBottomImage
+            variants={itemVariants}
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.2 }}
+          >
+            <Image
+              src="/images/bottom_of_hero.gif"
+              alt="Payment Animation"
+              width={600}
+              height={200}
+              style={{ width: '100%', height: 'auto' }}
+              unoptimized
+            />
+          </HeroBottomImage>
         </motion.div>
       </HeroContent>
     </HeroSection>

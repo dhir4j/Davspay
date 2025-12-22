@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import styled from 'styled-components';
 import { FiGithub, FiTwitter, FiLinkedin, FiMail } from 'react-icons/fi';
 import { motion } from 'framer-motion';
@@ -119,15 +120,14 @@ const FooterBottom = styled.div`
   font-size: 0.875rem;
 `;
 
-const Logo = styled.div`
-  font-size: 1.5rem;
-  font-weight: 700;
-  font-family: ${({ theme }) => theme.fonts.secondary};
-  background: ${({ theme }) => theme.colors.gradient};
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+const LogoContainer = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing.sm};
+  display: flex;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    justify-content: center;
+  }
 `;
 
 const Footer = () => {
@@ -137,7 +137,14 @@ const Footer = () => {
     <FooterContainer>
       <FooterContent>
         <FooterSection>
-          <Logo>Davspay Solution</Logo>
+          <LogoContainer>
+            <Image
+              src="/images/logo.png"
+              alt="Davspay Solutions"
+              width={150}
+              height={40}
+            />
+          </LogoContainer>
           <FooterAddress>
             7th Floor, Block E-12/8,<br />
             Vrindavan Tower, Sanjay Palace,<br />

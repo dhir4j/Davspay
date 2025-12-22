@@ -2,7 +2,7 @@
 
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { FiMail, FiPhone, FiMessageSquare } from 'react-icons/fi';
+import { FiMail, FiPhone } from 'react-icons/fi';
 import Card from '@/components/ui/Card';
 
 const PricingSection = styled.section`
@@ -12,6 +12,11 @@ const PricingSection = styled.section`
   justify-content: center;
   position: relative;
   padding: ${({ theme }) => theme.spacing.xxl} ${({ theme }) => theme.spacing.md};
+
+  @media (max-width: 768px) {
+    padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.sm};
+    min-height: auto;
+  }
 `;
 
 const Container = styled.div`
@@ -199,19 +204,6 @@ const Pricing = () => {
             </ContactInfo>
             <ContactDescription>
               Speak directly with our sales team Monday-Friday, 9AM-6PM IST
-            </ContactDescription>
-          </ContactCard>
-
-          <ContactCard variants={itemVariants} variant="glass">
-            <IconWrapper>
-              <FiMessageSquare />
-            </IconWrapper>
-            <ContactTitle>Live Chat</ContactTitle>
-            <ContactInfo as="button" style={{ border: 'none', background: 'none', cursor: 'pointer' }}>
-              Start Chat
-            </ContactInfo>
-            <ContactDescription>
-              Chat with our team for instant support and custom quote
             </ContactDescription>
           </ContactCard>
         </ContactGrid>

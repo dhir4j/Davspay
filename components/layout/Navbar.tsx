@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiMenu, FiX, FiSun, FiMoon } from 'react-icons/fi';
+import { FiMenu, FiX } from 'react-icons/fi';
+import Image from 'next/image';
 import { useTheme } from '@/lib/ThemeContext';
 import Button from '@/components/ui/Button';
 
@@ -32,13 +33,8 @@ const NavContainer = styled.div`
 `;
 
 const Logo = styled(Link)`
-  font-size: 1.5rem;
-  font-weight: 700;
-  font-family: ${({ theme }) => theme.fonts.secondary};
-  background: ${({ theme }) => theme.colors.gradient};
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  display: flex;
+  align-items: center;
   cursor: pointer;
   transition: all 0.3s ease;
 
@@ -86,29 +82,6 @@ const NavLink = styled(Link)`
   }
 `;
 
-const ThemeToggle = styled(motion.button)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: ${({ theme }) => theme.colors.surface};
-  border: 2px solid ${({ theme }) => theme.colors.border};
-  color: ${({ theme }) => theme.colors.primary};
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-  &:hover {
-    box-shadow: ${({ theme }) => theme.shadows.neon};
-    border-color: ${({ theme }) => theme.colors.primary};
-  }
-
-  svg {
-    width: 20px;
-    height: 20px;
-  }
-`;
 
 const MobileMenuButton = styled(motion.button)`
   display: none;
@@ -172,7 +145,6 @@ const RightSection = styled.div`
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { toggleTheme, isDark } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -200,7 +172,15 @@ const Navbar = () => {
       transition={{ duration: 0.5 }}
     >
       <NavContainer>
-        <Logo href="/">Davspay Solution</Logo>
+        <Logo href="/">
+          <Image
+            src="/images/logo.png"
+            alt="Davspay Solutions"
+            width={150}
+            height={40}
+            priority
+          />
+        </Logo>
 
         <NavLinks>
           {navItems.map((item) => (
@@ -211,15 +191,6 @@ const Navbar = () => {
         </NavLinks>
 
         <RightSection>
-          <ThemeToggle
-            onClick={toggleTheme}
-            whileHover={{ scale: 1.1, rotate: 180 }}
-            whileTap={{ scale: 0.9 }}
-            aria-label="Toggle theme"
-          >
-            {isDark ? <FiSun /> : <FiMoon />}
-          </ThemeToggle>
-
           <NavLinks>
             <Link href="/pricing">
               <Button variant="primary" size="sm">

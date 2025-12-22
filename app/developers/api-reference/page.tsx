@@ -19,6 +19,11 @@ const HeroSection = styled.section`
   padding-top: calc(${({ theme }) => theme.spacing.xl} + 70px);
   background: ${({ theme }) => theme.colors.background};
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+
+  @media (max-width: 768px) {
+    padding: ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.sm};
+    padding-top: calc(${({ theme }) => theme.spacing.lg} + 70px);
+  }
 `;
 
 const Container = styled.div`
@@ -52,6 +57,8 @@ const ContentWrapper = styled.div`
 
   @media (max-width: 968px) {
     grid-template-columns: 1fr;
+    gap: ${({ theme }) => theme.spacing.md};
+    padding: ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.sm};
   }
 `;
 

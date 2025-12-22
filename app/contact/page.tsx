@@ -23,6 +23,11 @@ const HeroSection = styled.section`
   position: relative;
   overflow: hidden;
 
+  @media (max-width: 768px) {
+    padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.sm};
+    padding-top: calc(${({ theme }) => theme.spacing.xl} + 70px);
+  }
+
   &::before {
     content: '';
     position: absolute;
@@ -70,6 +75,10 @@ const PageSubtitle = styled(motion.p)`
 const ContentSection = styled.section`
   padding: ${({ theme }) => theme.spacing.xxl} ${({ theme }) => theme.spacing.md};
   background: ${({ theme }) => theme.colors.background};
+
+  @media (max-width: 768px) {
+    padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.sm};
+  }
 `;
 
 const Grid = styled.div`
