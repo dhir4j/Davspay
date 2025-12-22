@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter, Space_Grotesk } from 'next/font/google';
 import StyledComponentsRegistry from '@/lib/StyledComponentsRegistry';
 import { ThemeProvider } from '@/lib/ThemeContext';
+import { AuthProvider } from '@/lib/AuthContext';
 import CustomCursor from '@/components/ui/CustomCursor';
 import TileBackground from '@/components/ui/TileBackground';
 
@@ -30,9 +31,11 @@ export default function RootLayout({
       <body>
         <StyledComponentsRegistry>
           <ThemeProvider>
-            <TileBackground />
-            <CustomCursor />
-            {children}
+            <AuthProvider>
+              <TileBackground />
+              <CustomCursor />
+              {children}
+            </AuthProvider>
           </ThemeProvider>
         </StyledComponentsRegistry>
       </body>

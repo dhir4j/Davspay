@@ -44,8 +44,8 @@ const Logo = styled(Link)`
 
   img {
     @media (max-width: 768px) {
-      width: 140px !important;
-      height: 50px !important;
+      width: 280px !important;
+      height: 100px !important;
     }
   }
 
@@ -187,8 +187,8 @@ const Navbar = () => {
           <Image
             src="/images/logo.png"
             alt="Davspay Solutions"
-            width={180}
-            height={60}
+            width={360}
+            height={120}
             priority
             style={{ objectFit: 'contain' }}
           />
@@ -204,6 +204,11 @@ const Navbar = () => {
 
         <RightSection>
           <NavLinks>
+            <Link href="/login">
+              <Button variant="outline" size="sm">
+                Sign In
+              </Button>
+            </Link>
             <Link href="/pricing">
               <Button variant="primary" size="sm">
                 Get Started

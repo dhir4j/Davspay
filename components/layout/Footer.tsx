@@ -141,8 +141,8 @@ const Footer = () => {
             <Image
               src="/images/logo.png"
               alt="Davspay Solutions"
-              width={200}
-              height={70}
+              width={400}
+              height={140}
               style={{ objectFit: 'contain' }}
             />
           </LogoContainer>
