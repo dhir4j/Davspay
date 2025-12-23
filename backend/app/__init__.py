@@ -57,7 +57,7 @@ def create_app(env="development"):
         <head>
             <meta charset="UTF-8" />
             <meta name="viewport" content="width=device-width,initial-scale=1" />
-            <title>Davspay API Server =³</title>
+            <title>Davspay API Server</title>
             <style>
                 * {
                     margin: 0;
@@ -185,7 +185,7 @@ def create_app(env="development"):
             </style>
         </head>
         <body>
-            <div class="logo">=³</div>
+            <div class="logo">&#128179;</div>
             <h1>Davspay Payment Gateway API</h1>
             <div class="status-indicator">
                 <span class="dot"></span>
@@ -193,7 +193,7 @@ def create_app(env="development"):
             </div>
 
             <div class="info">
-                <h2>=á Available Endpoints</h2>
+                <h2>&#128279; Available Endpoints</h2>
                 <div class="endpoint">
                     <span class="method get">GET</span>
                     <span class="endpoint-path">/api/health</span>
@@ -217,7 +217,7 @@ def create_app(env="development"):
             </div>
 
             <div class="footer">
-                <p>= Secure Payment Processing Platform</p>
+                <p>&#128274; Secure Payment Processing Platform</p>
                 <p style="margin-top: 10px;">Powered by Flask & PostgreSQL</p>
             </div>
         </body>
