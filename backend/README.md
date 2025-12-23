@@ -48,9 +48,14 @@ SECRET_KEY=your-secret-key
 JWT_SECRET_KEY=your-jwt-secret-key
 ```
 
-5. Run the application:
+5. Initialize the database:
 ```bash
-python app.py
+python init_db.py development
+```
+
+6. Run the application:
+```bash
+python run.py
 ```
 
 The API will be available at `http://localhost:5000`
@@ -194,13 +199,8 @@ from app import app as application
 Run in Bash console:
 ```bash
 cd ~/davspay-backend/backend
-python
-```
-
-```python
-from app import init_db
-init_db()
-exit()
+workon davspay-env
+python init_db.py production
 ```
 
 ### Step 7: Test API
