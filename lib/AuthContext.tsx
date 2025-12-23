@@ -45,7 +45,7 @@ interface AuthProviderProps {
 }
 
 // Use your backend API URL
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://server.davspay.com/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://www.server.davspay.com/api';
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
