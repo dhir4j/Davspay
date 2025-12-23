@@ -30,12 +30,12 @@ def get_db_config(env="production"):
 def init_database(env="production"):
     """Initialize database tables"""
     print("\n" + "="*60)
-    print("=Ä  Davspay Database Initialization")
+    print("  Davspay Database Initialization")
     print("="*60)
 
     db_config = get_db_config(env)
 
-    print(f"\n=á Connecting to database...")
+    print(f"\n[*] Connecting to database...")
     print(f"   Host: {db_config['host']}")
     print(f"   Database: {db_config['database']}")
     print(f"   User: {db_config['user']}")
@@ -45,11 +45,11 @@ def init_database(env="production"):
         conn = psycopg2.connect(**db_config)
         cursor = conn.cursor()
 
-        print("\n Connected successfully!")
-        print("\n=Ë Creating tables...\n")
+        print("\n[+] Connected successfully!")
+        print("\n[*] Creating tables...\n")
 
         # Create users table
-        print("   ’ Creating 'users' table...")
+        print("   [*] Creating 'users' table...")
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS users (
                 id SERIAL PRIMARY KEY,
@@ -66,19 +66,19 @@ def init_database(env="production"):
         """)
 
         # Create index on email for faster lookups
-        print("   ’ Creating email index...")
+        print("   [*] Creating email index...")
         cursor.execute("""
             CREATE INDEX IF NOT EXISTS idx_users_email ON users(email)
         """)
 
         # Create index on is_active for faster queries
-        print("   ’ Creating is_active index...")
+        print("   [*] Creating is_active index...")
         cursor.execute("""
             CREATE INDEX IF NOT EXISTS idx_users_active ON users(is_active)
         """)
 
         # Create function to update updated_at timestamp
-        print("   ’ Creating timestamp trigger function...")
+        print("   [*] Creating timestamp trigger function...")
         cursor.execute("""
             CREATE OR REPLACE FUNCTION update_updated_at_column()
             RETURNS TRIGGER AS $$
@@ -90,7 +90,7 @@ def init_database(env="production"):
         """)
 
         # Create trigger to auto-update updated_at
-        print("   ’ Creating auto-update trigger...")
+        print("   [*] Creating auto-update trigger...")
         cursor.execute("""
             DROP TRIGGER IF EXISTS update_users_updated_at ON users;
             CREATE TRIGGER update_users_updated_at
@@ -102,10 +102,10 @@ def init_database(env="production"):
         # Commit changes
         conn.commit()
 
-        print("\n All tables created successfully!")
+        print("\n[+] All tables created successfully!")
 
         # Verify tables
-        print("\n=Ê Verifying database schema...")
+        print("\n[*] Verifying database schema...")
         cursor.execute("""
             SELECT table_name
             FROM information_schema.tables
@@ -116,10 +116,10 @@ def init_database(env="production"):
 
         print("\n   Tables found:")
         for table in tables:
-            print(f"       {table[0]}")
+            print(f"       - {table[0]}")
 
         # Show users table structure
-        print("\n=Ë 'users' table structure:")
+        print("\n[*] 'users' table structure:")
         cursor.execute("""
             SELECT column_name, data_type, character_maximum_length, is_nullable, column_default
             FROM information_schema.columns
@@ -141,15 +141,15 @@ def init_database(env="production"):
         conn.close()
 
         print("\n" + "="*60)
-        print(" Database initialization completed successfully!")
+        print("[+] Database initialization completed successfully!")
         print("="*60)
-        print("\n<‰ You can now start using the Davspay API!\n")
+        print("\n[+] You can now start using the Davspay API!\n")
 
         return True
 
     except Exception as e:
-        print(f"\nL Error: {e}")
-        print("\n=¡ Troubleshooting:")
+        print(f"\n[!] Error: {e}")
+        print("\n[*] Troubleshooting:")
         print("   1. Check your .env file has correct database credentials")
         print("   2. Verify your PostgreSQL database is running")
         print("   3. Ensure you have network access to the database")
@@ -158,7 +158,7 @@ def init_database(env="production"):
 
 def check_connection(env="production"):
     """Test database connection"""
-    print("\n= Testing database connection...")
+    print("\n[*] Testing database connection...")
 
     db_config = get_db_config(env)
 
@@ -167,13 +167,13 @@ def check_connection(env="production"):
         cursor = conn.cursor()
         cursor.execute("SELECT version()")
         version = cursor.fetchone()
-        print(f" Connection successful!")
+        print(f"[+] Connection successful!")
         print(f"   PostgreSQL version: {version[0][:50]}...")
         cursor.close()
         conn.close()
         return True
     except Exception as e:
-        print(f"L Connection failed: {e}")
+        print(f"[!] Connection failed: {e}")
         return False
 
 if __name__ == "__main__":
@@ -191,5 +191,5 @@ if __name__ == "__main__":
         # Initialize database
         init_database(env)
     else:
-        print("\nL Cannot initialize database - connection failed\n")
+        print("\n[!] Cannot initialize database - connection failed\n")
         sys.exit(1)
