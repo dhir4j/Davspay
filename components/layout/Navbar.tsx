@@ -202,9 +202,12 @@ const Navbar = () => {
 
         <RightSection>
           <NavLinks>
-            <Link href="/login">
+            <Link href="/pricing">
+              <NavLink href="/pricing">Pricing</NavLink>
+            </Link>
+            <Link href="/register">
               <Button variant="primary" size="sm">
-                Get Started
+                Sign Up Now
               </Button>
             </Link>
           </NavLinks>
@@ -239,9 +242,12 @@ const Navbar = () => {
                 {item.name}
               </MobileNavLink>
             ))}
-            <Link href="/pricing" onClick={() => setMobileMenuOpen(false)}>
+            <MobileNavLink href="/pricing" onClick={() => setMobileMenuOpen(false)}>
+              Pricing
+            </MobileNavLink>
+            <Link href="/register" onClick={() => setMobileMenuOpen(false)}>
               <Button variant="primary" fullWidth>
-                Get Started
+                Sign Up Now
               </Button>
             </Link>
           </MobileMenu>

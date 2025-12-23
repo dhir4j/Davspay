@@ -276,17 +276,31 @@ const EmptyState = styled.div`
 `;
 
 const CodeSnippet = styled.div`
-  background: ${({ theme }) => theme.colors.background};
+  background: #1e1e1e;
   border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
-  padding: ${({ theme }) => theme.spacing.lg};
-  font-family: 'Courier New', monospace;
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  padding: ${({ theme }) => theme.spacing.xl};
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
   font-size: 0.875rem;
-  color: ${({ theme }) => theme.colors.text};
+  line-height: 1.6;
+  color: #d4d4d4;
   overflow-x: auto;
   margin: ${({ theme }) => theme.spacing.lg} auto;
-  max-width: 600px;
+  max-width: 700px;
   position: relative;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+  pre {
+    margin: 0;
+    white-space: pre;
+  }
+
+  .keyword { color: #569cd6; }
+  .function { color: #dcdcaa; }
+  .string { color: #ce9178; }
+  .comment { color: #6a9955; font-style: italic; }
+  .property { color: #9cdcfe; }
+  .number { color: #b5cea8; }
 `;
 
 const CopyButton = styled.button`
@@ -354,20 +368,24 @@ export default function UPICollectionsPage() {
     },
   ];
 
-  const sampleCode = `// Initialize UPI Collection
-const upiCollection = await davspay.upi.collect({
-  customer_vpa: 'customer@upi',
-  amount: 10000, // in paise
-  note: 'Payment for Order #12345',
-  merchant_id: 'YOUR_MERCHANT_ID',
-  callback_url: 'https://yoursite.com/callback'
+  const sampleCode = `<span class="comment">// Initialize UPI Collection Request</span>
+<span class="keyword">const</span> <span class="property">upiCollection</span> = <span class="keyword">await</span> davspay.<span class="property">upi</span>.<span class="function">collect</span>({
+  <span class="property">customer_vpa</span>: <span class="string">'customer@upi'</span>,
+  <span class="property">amount</span>: <span class="number">10000</span>, <span class="comment">// Amount in paise (₹100.00)</span>
+  <span class="property">note</span>: <span class="string">'Payment for Order #12345'</span>,
+  <span class="property">merchant_id</span>: <span class="string">'YOUR_MERCHANT_ID'</span>,
+  <span class="property">callback_url</span>: <span class="string">'https://yoursite.com/callback'</span>
 });
 
-console.log('Collection ID:', upiCollection.id);
-console.log('Status:', upiCollection.status);`;
+<span class="comment">// Response contains collection details</span>
+console.<span class="function">log</span>(<span class="string">'Collection ID:'</span>, upiCollection.<span class="property">id</span>);
+console.<span class="function">log</span>(<span class="string">'Status:'</span>, upiCollection.<span class="property">status</span>);
+console.<span class="function">log</span>(<span class="string">'VPA:'</span>, upiCollection.<span class="property">vpa</span>);`;
 
   const copyCode = () => {
-    navigator.clipboard.writeText(sampleCode);
+    // Remove HTML tags for copying
+    const plainCode = sampleCode.replace(/<[^>]*>/g, '');
+    navigator.clipboard.writeText(plainCode);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -440,7 +458,7 @@ console.log('Status:', upiCollection.status);`;
                 </>
               )}
             </CopyButton>
-            <pre>{sampleCode}</pre>
+            <pre dangerouslySetInnerHTML={{ __html: sampleCode }} />
           </CodeSnippet>
 
           <div style={{ marginTop: '1rem' }}>

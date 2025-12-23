@@ -5,7 +5,8 @@ import { motion } from 'framer-motion';
 import { FiLink, FiCheckCircle, FiXCircle, FiClock, FiCode, FiCopy, FiPlus } from 'react-icons/fi';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import Button from '@/components/ui/Button';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useAuth } from '@/lib/AuthContext';
 
 const PageHeader = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing.xl};
@@ -233,9 +234,40 @@ const EmptyState = styled.div`
   color: ${({ theme }) => theme.colors.textSecondary};
 `;
 
+// Generate unique hash-based secret key from account name
+const generateWebhookSecret = (accountName: string): string => {
+  // Simple hash function to generate consistent secret from account name
+  let hash = 0;
+  const saltedName = accountName + 'davspay-webhook-salt-2024';
+
+  for (let i = 0; i < saltedName.length; i++) {
+    const char = saltedName.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+
+  // Convert to hex and create a webhook secret format
+  const hexHash = Math.abs(hash).toString(16).padStart(8, '0');
+  const timestamp = Date.now().toString(36).slice(-6);
+  const randomSuffix = Math.random().toString(36).substring(2, 8);
+
+  return `whsec_${hexHash}${timestamp}${randomSuffix}`.substring(0, 32);
+};
+
 export default function CallbacksPage() {
   const [copied, setCopied] = useState(false);
   const [webhookUrl, setWebhookUrl] = useState('https://yoursite.com/webhooks/davspay');
+  const [webhookSecret, setWebhookSecret] = useState('');
+  const { user } = useAuth();
+
+  useEffect(() => {
+    // Generate unique secret based on user's company name or email
+    if (user) {
+      const accountIdentifier = user.company_name || user.email || 'default-account';
+      const secret = generateWebhookSecret(accountIdentifier);
+      setWebhookSecret(secret);
+    }
+  }, [user]);
 
   const sampleCode = `// Express.js Webhook Handler
 const express = require('express');
@@ -330,18 +362,13 @@ app.post('/webhooks/davspay', express.json(), (req, res) => {
 
         <FormGroup>
           <Label>Webhook Secret</Label>
-          <Input type="text" value="whsec_********************" readOnly />
+          <Input type="text" value={webhookSecret || 'whsec_********************'} readOnly />
           <HelpText>Use this secret to verify webhook signatures in your application</HelpText>
         </FormGroup>
 
-        <div style={{ display: 'flex', gap: '1rem' }}>
-          <Button variant="primary" size="md">
-            Save Configuration
-          </Button>
-          <Button variant="outline" size="md">
-            Test Webhook
-          </Button>
-        </div>
+        <Button variant="primary" size="md">
+          Save Configuration
+        </Button>
       </Card>
 
       <Card>

@@ -22,6 +22,12 @@ import {
   FiLogOut,
   FiUser,
   FiUpload,
+  FiHelpCircle,
+  FiMail,
+  FiBook,
+  FiExternalLink,
+  FiCode,
+  FiFileText,
 } from 'react-icons/fi';
 import { useAuth } from '@/lib/AuthContext';
 
@@ -233,6 +239,33 @@ const UserEmail = styled.div`
   text-overflow: ellipsis;
 `;
 
+const HelpButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  background: none;
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  color: ${({ theme }) => theme.colors.text};
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 0.5rem;
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.primary}10;
+    border-color: ${({ theme }) => theme.colors.primary};
+    color: ${({ theme }) => theme.colors.primary};
+  }
+`;
+
 const LogoutButton = styled.button`
   display: flex;
   align-items: center;
@@ -257,6 +290,168 @@ const LogoutButton = styled.button`
     border-color: ${({ theme }) => theme.colors.error};
     color: ${({ theme }) => theme.colors.error};
   }
+`;
+
+const HelpModal = styled(motion.div)`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: ${({ theme }) => theme.colors.surface};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: ${({ theme }) => theme.borderRadius.xl};
+  padding: ${({ theme }) => theme.spacing.xl};
+  width: 90%;
+  max-width: 500px;
+  z-index: 2000;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+`;
+
+const HelpModalOverlay = styled(motion.div)`
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1999;
+`;
+
+const HelpModalHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
+  padding-bottom: ${({ theme }) => theme.spacing.md};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+`;
+
+const HelpModalTitle = styled.h3`
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.text};
+  font-family: ${({ theme }) => theme.fonts.secondary};
+`;
+
+const CloseModalButton = styled.button`
+  background: none;
+  border: none;
+  color: ${({ theme }) => theme.colors.textSecondary};
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  transition: all 0.2s ease;
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.background};
+    color: ${({ theme }) => theme.colors.text};
+  }
+`;
+
+const HelpContent = styled.div`
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
+`;
+
+const SupportPerson = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.md};
+  padding: ${({ theme }) => theme.spacing.lg};
+  background: ${({ theme }) => theme.colors.background};
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
+`;
+
+const SupportAvatar = styled.div`
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: ${({ theme }) => theme.colors.gradient};
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+`;
+
+const SupportInfo = styled.div`
+  flex: 1;
+`;
+
+const SupportName = styled.div`
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: ${({ theme }) => theme.colors.text};
+  margin-bottom: 0.25rem;
+`;
+
+const SupportEmail = styled.a`
+  font-size: 0.875rem;
+  color: ${({ theme }) => theme.colors.primary};
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+
+  svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.primaryDark};
+    text-decoration: underline;
+  }
+`;
+
+const HelpLinks = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.sm};
+`;
+
+const HelpLink = styled.a`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: ${({ theme }) => theme.spacing.md};
+  background: ${({ theme }) => theme.colors.background};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  color: ${({ theme }) => theme.colors.text};
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+
+  svg {
+    width: 18px;
+    height: 18px;
+    color: ${({ theme }) => theme.colors.textSecondary};
+  }
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.primary}10;
+    border-color: ${({ theme }) => theme.colors.primary};
+    color: ${({ theme }) => theme.colors.primary};
+
+    svg {
+      color: ${({ theme }) => theme.colors.primary};
+    }
+  }
+`;
+
+const HelpLinkContent = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 `;
 
 const MainContent = styled.main`
@@ -329,9 +524,20 @@ interface DashboardLayoutProps {
   children: React.ReactNode;
 }
 
+// Generate random support person name
+const generateSupportName = () => {
+  const firstNames = ['Arjun', 'Priya', 'Rahul', 'Sneha', 'Vikram', 'Ananya', 'Karan', 'Ishita', 'Rohan', 'Meera'];
+  const lastNames = ['Sharma', 'Patel', 'Gupta', 'Singh', 'Kumar', 'Verma', 'Reddy', 'Joshi', 'Nair', 'Desai'];
+  const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+  const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+  return `${firstName} ${lastName}`;
+};
+
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [expandedMenus, setExpandedMenus] = useState<string[]>(['virtual-accounts']);
+  const [helpModalOpen, setHelpModalOpen] = useState(false);
+  const [supportPerson] = useState(() => generateSupportName());
   const pathname = usePathname();
   const { user, logout } = useAuth();
 
@@ -419,6 +625,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
       .slice(0, 2);
   };
 
+  const supportEmail = `${supportPerson.toLowerCase().replace(' ', '.')}@davspay.com`;
+  const supportInitials = getInitials(supportPerson);
+
   return (
     <DashboardContainer>
       <AnimatePresence>
@@ -429,6 +638,76 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
             exit={{ opacity: 0 }}
             onClick={() => setSidebarOpen(false)}
           />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {helpModalOpen && (
+          <>
+            <HelpModalOverlay
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setHelpModalOpen(false)}
+            />
+            <HelpModal
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+            >
+              <HelpModalHeader>
+                <HelpModalTitle>Help & Support</HelpModalTitle>
+                <CloseModalButton onClick={() => setHelpModalOpen(false)}>
+                  <FiX />
+                </CloseModalButton>
+              </HelpModalHeader>
+
+              <HelpContent>
+                <SupportPerson>
+                  <SupportAvatar>{supportInitials}</SupportAvatar>
+                  <SupportInfo>
+                    <SupportName>{supportPerson}</SupportName>
+                    <SupportEmail href={`mailto:${supportEmail}`}>
+                      <FiMail />
+                      {supportEmail}
+                    </SupportEmail>
+                  </SupportInfo>
+                </SupportPerson>
+
+                <HelpLinks>
+                  <HelpLink href="/developers">
+                    <HelpLinkContent>
+                      <FiBook />
+                      <span>Documentation</span>
+                    </HelpLinkContent>
+                    <FiExternalLink />
+                  </HelpLink>
+                  <HelpLink href="/developers/api-reference">
+                    <HelpLinkContent>
+                      <FiCode />
+                      <span>API Reference</span>
+                    </HelpLinkContent>
+                    <FiExternalLink />
+                  </HelpLink>
+                  <HelpLink href="/developers/guides">
+                    <HelpLinkContent>
+                      <FiFileText />
+                      <span>Integration Guides</span>
+                    </HelpLinkContent>
+                    <FiExternalLink />
+                  </HelpLink>
+                  <HelpLink href="mailto:support@davspay.com">
+                    <HelpLinkContent>
+                      <FiMail />
+                      <span>Contact Support</span>
+                    </HelpLinkContent>
+                    <FiExternalLink />
+                  </HelpLink>
+                </HelpLinks>
+              </HelpContent>
+            </HelpModal>
+          </>
         )}
       </AnimatePresence>
 
@@ -504,6 +783,10 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
               <UserEmail>{user?.email || 'user@example.com'}</UserEmail>
             </UserDetails>
           </UserInfo>
+          <HelpButton onClick={() => setHelpModalOpen(true)}>
+            <FiHelpCircle />
+            <span>Help & Support</span>
+          </HelpButton>
           <LogoutButton onClick={logout}>
             <FiLogOut />
             <span>Logout</span>

@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { FiMail, FiLock, FiUser, FiPhone, FiBriefcase, FiArrowRight } from 'react-icons/fi';
+import { FiMail, FiLock, FiUser, FiPhone, FiBriefcase, FiArrowRight, FiFileText } from 'react-icons/fi';
 import { useAuth } from '@/lib/AuthContext';
 import Button from '@/components/ui/Button';
 
@@ -138,6 +138,21 @@ const PasswordHint = styled.p`
   margin-top: -0.25rem;
 `;
 
+const HelpText = styled.p`
+  font-size: 0.75rem;
+  color: ${({ theme }) => theme.colors.textSecondary};
+  margin-top: 0.25rem;
+
+  a {
+    color: ${({ theme }) => theme.colors.primary};
+    text-decoration: underline;
+
+    &:hover {
+      color: ${({ theme }) => theme.colors.primaryDark};
+    }
+  }
+`;
+
 const LoginPrompt = styled.p`
   text-align: center;
   margin-top: ${({ theme }) => theme.spacing.lg};
@@ -172,6 +187,7 @@ export default function RegisterPage() {
     fullName: '',
     companyName: '',
     phone: '',
+    gst: '',
   });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -303,6 +319,24 @@ export default function RegisterPage() {
                 required
               />
             </InputWrapper>
+          </InputGroup>
+
+          <InputGroup>
+            <Label htmlFor="gst">GST Number (Optional)</Label>
+            <InputWrapper>
+              <FiFileText />
+              <Input
+                id="gst"
+                name="gst"
+                type="text"
+                placeholder="22AAAAA0000A1Z5"
+                value={formData.gst}
+                onChange={handleChange}
+              />
+            </InputWrapper>
+            <HelpText>
+              If GST not present contact - <a href="mailto:contact@davspay.com">contact@davspay.com</a>
+            </HelpText>
           </InputGroup>
 
           <InputGroup>

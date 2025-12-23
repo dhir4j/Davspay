@@ -268,9 +268,9 @@ const Hero = () => {
           </Subtitle>
 
           <CTAButtons variants={itemVariants}>
-            <Link href="/pricing">
+            <Link href="/register">
               <Button variant="primary" size="lg">
-                Get Started Free
+                Sign Up Now
                 <FiArrowRight style={{ marginLeft: '0.5rem' }} />
               </Button>
             </Link>
