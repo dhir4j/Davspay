@@ -51,12 +51,12 @@ const Logo = styled(Link)`
 
   img {
     @media (max-width: 968px) {
-      width: 266px !important;
+      width: 200px !important;
       height: auto !important;
     }
 
     @media (max-width: 768px) {
-      width: 213px !important;
+      width: 160px !important;
       height: auto !important;
     }
   }
@@ -201,8 +201,8 @@ const Navbar = () => {
           <Image
             src="/images/zoomedlogo.png"
             alt="Davspay"
-            width={320}
-            height={107}
+            width={240}
+            height={80}
             priority
             style={{ objectFit: 'contain' }}
           />
