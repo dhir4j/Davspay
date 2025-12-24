@@ -34,6 +34,10 @@ const FooterSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.sm};
+
+  &:first-child {
+    gap: ${({ theme }) => theme.spacing.md};
+  }
 `;
 
 const FooterTitle = styled.h3`
@@ -73,6 +77,7 @@ const FooterAddress = styled.div`
   color: ${({ theme }) => theme.colors.textSecondary};
   font-size: 0.875rem;
   line-height: 1.6;
+  margin-top: 0;
 `;
 
 const SocialLinks = styled.div`
@@ -121,9 +126,9 @@ const FooterBottom = styled.div`
 `;
 
 const LogoContainer = styled.div`
-  margin-bottom: ${({ theme }) => theme.spacing.sm};
+  margin-bottom: ${({ theme }) => theme.spacing.md};
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 
   @media (max-width: 768px) {
     justify-content: center;
@@ -139,10 +144,10 @@ const Footer = () => {
         <FooterSection>
           <LogoContainer>
             <Image
-              src="/images/logo.png"
+              src="/images/zoomedlogo.png"
               alt="Davspay Solutions"
-              width={400}
-              height={140}
+              width={300}
+              height={100}
               style={{ objectFit: 'contain' }}
             />
           </LogoContainer>
