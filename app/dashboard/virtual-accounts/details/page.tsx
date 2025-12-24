@@ -1,8 +1,8 @@
 'use client';
 
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
-import { FiCopy, FiCheckCircle, FiAlertCircle, FiClock, FiDownload, FiRefreshCw } from 'react-icons/fi';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FiMail, FiUser, FiPhone, FiMessageSquare, FiCheckCircle } from 'react-icons/fi';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import Button from '@/components/ui/Button';
 import { useState } from 'react';
@@ -24,427 +24,321 @@ const PageSubtitle = styled.p`
   color: ${({ theme }) => theme.colors.textSecondary};
 `;
 
-const ContentGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: ${({ theme }) => theme.spacing.lg};
-  margin-bottom: ${({ theme }) => theme.spacing.xl};
-
-  @media (max-width: 968px) {
-    grid-template-columns: 1fr;
-  }
-`;
-
 const Card = styled(motion.div)`
   background: ${({ theme }) => theme.colors.surface};
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
-  padding: ${({ theme }) => theme.spacing.xl};
-`;
+  padding: ${({ theme }) => theme.spacing.xxl};
+  max-width: 800px;
+  margin: 0 auto;
 
-const CardHeader = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: ${({ theme }) => theme.spacing.lg};
-  padding-bottom: ${({ theme }) => theme.spacing.md};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+  @media (max-width: 768px) {
+    padding: ${({ theme }) => theme.spacing.lg};
+  }
 `;
 
 const CardTitle = styled.h2`
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-weight: 600;
   color: ${({ theme }) => theme.colors.text};
   font-family: ${({ theme }) => theme.fonts.secondary};
+  margin-bottom: 0.5rem;
+  text-align: center;
 `;
 
-const StatusBadge = styled.span<{ $status: string }>`
-  padding: 0.375rem 0.875rem;
-  border-radius: 9999px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  background: ${({ $status, theme }) =>
-    $status === 'active' ? theme.colors.success + '20' : theme.colors.textSecondary + '20'};
-  color: ${({ $status, theme }) => ($status === 'active' ? theme.colors.success : theme.colors.textSecondary)};
-  display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
-
-  svg {
-    width: 14px;
-    height: 14px;
-  }
-`;
-
-const DetailRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: ${({ theme }) => theme.spacing.md} 0;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
-
-  &:last-child {
-    border-bottom: none;
-  }
-`;
-
-const DetailLabel = styled.span`
-  font-size: 0.875rem;
+const CardDescription = styled.p`
+  font-size: 1rem;
   color: ${({ theme }) => theme.colors.textSecondary};
-  font-weight: 500;
+  text-align: center;
+  margin-bottom: ${({ theme }) => theme.spacing.xl};
 `;
 
-const DetailValue = styled.span`
-  font-size: 0.875rem;
-  color: ${({ theme }) => theme.colors.text};
-  font-weight: 600;
+const Form = styled.form`
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.lg};
+`;
+
+const FormGroup = styled.div`
+  display: flex;
+  flex-direction: column;
   gap: 0.5rem;
 `;
 
-const CopyButton = styled.button`
-  background: none;
-  border: none;
-  color: ${({ theme }) => theme.colors.primary};
-  cursor: pointer;
-  padding: 0.25rem;
-  display: flex;
-  align-items: center;
-  transition: all 0.2s ease;
+const Label = styled.label`
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.text};
+`;
+
+const InputWrapper = styled.div`
+  position: relative;
 
   svg {
-    width: 16px;
-    height: 16px;
-  }
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.primaryDark};
-    transform: scale(1.1);
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    color: ${({ theme }) => theme.colors.textSecondary};
   }
 `;
 
-const CodeBlock = styled.div`
+const Input = styled.input`
+  width: 100%;
+  padding: 0.875rem 1rem;
+  padding-left: 3rem;
   background: ${({ theme }) => theme.colors.background};
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius.md};
-  padding: ${({ theme }) => theme.spacing.lg};
-  font-family: 'Courier New', monospace;
-  font-size: 0.875rem;
   color: ${({ theme }) => theme.colors.text};
-  overflow-x: auto;
-  position: relative;
-  margin-top: ${({ theme }) => theme.spacing.md};
+  font-size: 1rem;
+  transition: all 0.2s ease;
+
+  &:focus {
+    outline: none;
+    border-color: ${({ theme }) => theme.colors.primary};
+    box-shadow: 0 0 0 3px ${({ theme }) => theme.colors.primary}20;
+  }
+
+  &::placeholder {
+    color: ${({ theme }) => theme.colors.textSecondary};
+  }
 `;
 
-const CopyCodeButton = styled.button`
-  position: absolute;
-  top: ${({ theme }) => theme.spacing.sm};
-  right: ${({ theme }) => theme.spacing.sm};
-  background: ${({ theme }) => theme.colors.primary};
-  color: white;
-  border: none;
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
-  padding: 0.5rem 0.75rem;
-  font-size: 0.75rem;
-  cursor: pointer;
+const TextArea = styled.textarea`
+  width: 100%;
+  padding: 0.875rem 1rem;
+  padding-left: 3rem;
+  background: ${({ theme }) => theme.colors.background};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  color: ${({ theme }) => theme.colors.text};
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  min-height: 150px;
+  resize: vertical;
+  font-family: inherit;
+
+  &:focus {
+    outline: none;
+    border-color: ${({ theme }) => theme.colors.primary};
+    box-shadow: 0 0 0 3px ${({ theme }) => theme.colors.primary}20;
+  }
+
+  &::placeholder {
+    color: ${({ theme }) => theme.colors.textSecondary};
+  }
+`;
+
+const SuccessModal = styled(motion.div)`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: ${({ theme }) => theme.colors.surface};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: ${({ theme }) => theme.borderRadius.xl};
+  padding: ${({ theme }) => theme.spacing.xxl};
+  width: 90%;
+  max-width: 500px;
+  z-index: 10000;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  text-align: center;
+`;
+
+const SuccessOverlay = styled(motion.div)`
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+`;
+
+const SuccessIcon = styled.div`
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: ${({ theme }) => theme.colors.success}20;
+  color: ${({ theme }) => theme.colors.success};
   display: flex;
   align-items: center;
-  gap: 0.375rem;
-  transition: all 0.2s ease;
+  justify-content: center;
+  margin: 0 auto ${({ theme }) => theme.spacing.lg};
 
   svg {
-    width: 12px;
-    height: 12px;
-  }
-
-  &:hover {
-    background: ${({ theme }) => theme.colors.primaryDark};
-    transform: translateY(-1px);
+    width: 40px;
+    height: 40px;
   }
 `;
 
-const ActionButtons = styled.div`
-  display: flex;
-  gap: ${({ theme }) => theme.spacing.md};
-  margin-top: ${({ theme }) => theme.spacing.lg};
+const SuccessTitle = styled.h3`
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.text};
+  margin-bottom: 0.5rem;
+  font-family: ${({ theme }) => theme.fonts.secondary};
 `;
 
-const FullWidthCard = styled(Card)`
-  grid-column: 1 / -1;
-`;
-
-const TabContainer = styled.div`
-  display: flex;
-  gap: ${({ theme }) => theme.spacing.sm};
+const SuccessMessage = styled.p`
+  font-size: 1rem;
+  color: ${({ theme }) => theme.colors.textSecondary};
   margin-bottom: ${({ theme }) => theme.spacing.lg};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
-`;
-
-const Tab = styled.button<{ $active: boolean }>`
-  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
-  background: none;
-  border: none;
-  color: ${({ $active, theme }) => ($active ? theme.colors.primary : theme.colors.textSecondary)};
-  font-weight: ${({ $active }) => ($active ? '600' : '500')};
-  font-size: 0.9375rem;
-  cursor: pointer;
-  border-bottom: 2px solid ${({ $active, theme }) => ($active ? theme.colors.primary : 'transparent')};
-  transition: all 0.2s ease;
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.primary};
-  }
 `;
 
 export default function VirtualAccountDetailsPage() {
-  const [copiedField, setCopiedField] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState('overview');
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    message: '',
+  });
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const copyToClipboard = (text: string, field: string) => {
-    navigator.clipboard.writeText(text);
-    setCopiedField(field);
-    setTimeout(() => setCopiedField(null), 2000);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
 
-  const vaData = {
-    vaId: 'VA' + Math.random().toString(36).substr(2, 12).toUpperCase(),
-    accountNumber: '1234567890',
-    ifscCode: 'DAVS0000001',
-    accountHolder: 'DAVSPAY MERCHANT',
-    upiId: 'merchant@davspay',
-    status: 'active',
-    createdAt: new Date().toLocaleDateString(),
-    balance: '₹0.00',
-    totalTransactions: 0,
-    successfulPayments: 0,
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    // Simulate form submission
+    setTimeout(() => {
+      setLoading(false);
+      setShowSuccess(true);
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        message: '',
+      });
+    }, 1000);
   };
 
-  const integrationCode = `// Initialize Davspay Client
-const davspay = require('davspay-node');
-const client = new davspay.Client({
-  apiKey: 'YOUR_API_KEY',
-  apiSecret: 'YOUR_API_SECRET'
-});
-
-// Create Virtual Account
-const virtualAccount = await client.virtualAccounts.create({
-  customer_name: 'John Doe',
-  customer_email: 'john@example.com',
-  customer_mobile: '9876543210',
-  amount: 10000, // in paise
-  description: 'Payment for Order #12345'
-});
-
-// Webhook Handler
-app.post('/webhook/davspay', (req, res) => {
-  const signature = req.headers['x-davspay-signature'];
-  const payload = req.body;
-
-  if (davspay.webhooks.verify(payload, signature)) {
-    // Process payment notification
-    console.log('Payment received:', payload);
-    res.status(200).send('OK');
-  } else {
-    res.status(400).send('Invalid signature');
-  }
-});`;
+  const closeSuccess = () => {
+    setShowSuccess(false);
+  };
 
   return (
     <DashboardLayout>
       <PageHeader>
         <PageTitle>Virtual Account Details</PageTitle>
-        <PageSubtitle>Complete information and integration details for your virtual account</PageSubtitle>
+        <PageSubtitle>Request your virtual account details by filling out the contact form below</PageSubtitle>
       </PageHeader>
 
-      <ContentGrid>
-        <Card
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-        >
-          <CardHeader>
-            <CardTitle>Account Information</CardTitle>
-            <StatusBadge $status={vaData.status}>
-              <FiCheckCircle />
-              Active
-            </StatusBadge>
-          </CardHeader>
+      <AnimatePresence>
+        {showSuccess && (
+          <>
+            <SuccessOverlay
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={closeSuccess}
+            />
+            <SuccessModal
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+            >
+              <SuccessIcon>
+                <FiCheckCircle />
+              </SuccessIcon>
+              <SuccessTitle>Request Submitted!</SuccessTitle>
+              <SuccessMessage>
+                Thank you for contacting us. Our team will get back to you with your virtual account details shortly.
+              </SuccessMessage>
+              <Button variant="primary" size="md" onClick={closeSuccess}>
+                Close
+              </Button>
+            </SuccessModal>
+          </>
+        )}
+      </AnimatePresence>
 
-          <DetailRow>
-            <DetailLabel>Virtual Account ID</DetailLabel>
-            <DetailValue>
-              {vaData.vaId}
-              <CopyButton onClick={() => copyToClipboard(vaData.vaId, 'vaId')}>
-                {copiedField === 'vaId' ? <FiCheckCircle /> : <FiCopy />}
-              </CopyButton>
-            </DetailValue>
-          </DetailRow>
+      <Card
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+      >
+        <CardTitle>Contact Us for Virtual Account Details</CardTitle>
+        <CardDescription>
+          Please fill out the form below and our team will provide you with your virtual account information
+        </CardDescription>
 
-          <DetailRow>
-            <DetailLabel>Account Number</DetailLabel>
-            <DetailValue>
-              {vaData.accountNumber}
-              <CopyButton onClick={() => copyToClipboard(vaData.accountNumber, 'accountNumber')}>
-                {copiedField === 'accountNumber' ? <FiCheckCircle /> : <FiCopy />}
-              </CopyButton>
-            </DetailValue>
-          </DetailRow>
+        <Form onSubmit={handleSubmit}>
+          <FormGroup>
+            <Label htmlFor="name">Full Name</Label>
+            <InputWrapper>
+              <FiUser />
+              <Input
+                id="name"
+                name="name"
+                type="text"
+                placeholder="Enter your full name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
+            </InputWrapper>
+          </FormGroup>
 
-          <DetailRow>
-            <DetailLabel>IFSC Code</DetailLabel>
-            <DetailValue>
-              {vaData.ifscCode}
-              <CopyButton onClick={() => copyToClipboard(vaData.ifscCode, 'ifsc')}>
-                {copiedField === 'ifsc' ? <FiCheckCircle /> : <FiCopy />}
-              </CopyButton>
-            </DetailValue>
-          </DetailRow>
+          <FormGroup>
+            <Label htmlFor="email">Email Address</Label>
+            <InputWrapper>
+              <FiMail />
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="you@example.com"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </InputWrapper>
+          </FormGroup>
 
-          <DetailRow>
-            <DetailLabel>Account Holder Name</DetailLabel>
-            <DetailValue>{vaData.accountHolder}</DetailValue>
-          </DetailRow>
+          <FormGroup>
+            <Label htmlFor="phone">Phone Number</Label>
+            <InputWrapper>
+              <FiPhone />
+              <Input
+                id="phone"
+                name="phone"
+                type="tel"
+                placeholder="9876543210"
+                value={formData.phone}
+                onChange={handleChange}
+                required
+              />
+            </InputWrapper>
+          </FormGroup>
 
-          <DetailRow>
-            <DetailLabel>UPI ID</DetailLabel>
-            <DetailValue>
-              {vaData.upiId}
-              <CopyButton onClick={() => copyToClipboard(vaData.upiId, 'upi')}>
-                {copiedField === 'upi' ? <FiCheckCircle /> : <FiCopy />}
-              </CopyButton>
-            </DetailValue>
-          </DetailRow>
+          <FormGroup>
+            <Label htmlFor="message">Message (Optional)</Label>
+            <InputWrapper>
+              <FiMessageSquare />
+              <TextArea
+                id="message"
+                name="message"
+                placeholder="Tell us more about your requirements..."
+                value={formData.message}
+                onChange={handleChange}
+              />
+            </InputWrapper>
+          </FormGroup>
 
-          <DetailRow>
-            <DetailLabel>Created On</DetailLabel>
-            <DetailValue>{vaData.createdAt}</DetailValue>
-          </DetailRow>
-        </Card>
-
-        <Card
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.1 }}
-        >
-          <CardHeader>
-            <CardTitle>Statistics</CardTitle>
-          </CardHeader>
-
-          <DetailRow>
-            <DetailLabel>Current Balance</DetailLabel>
-            <DetailValue style={{ fontSize: '1.25rem', color: '#4ADE80' }}>{vaData.balance}</DetailValue>
-          </DetailRow>
-
-          <DetailRow>
-            <DetailLabel>Total Transactions</DetailLabel>
-            <DetailValue>{vaData.totalTransactions}</DetailValue>
-          </DetailRow>
-
-          <DetailRow>
-            <DetailLabel>Successful Payments</DetailLabel>
-            <DetailValue>{vaData.successfulPayments}</DetailValue>
-          </DetailRow>
-
-          <DetailRow>
-            <DetailLabel>Failed Transactions</DetailLabel>
-            <DetailValue>0</DetailValue>
-          </DetailRow>
-
-          <DetailRow>
-            <DetailLabel>Pending Settlements</DetailLabel>
-            <DetailValue>₹0.00</DetailValue>
-          </DetailRow>
-
-          <ActionButtons>
-            <Button variant="primary" size="md" fullWidth>
-              <FiDownload style={{ marginRight: '0.5rem' }} />
-              Export Report
-            </Button>
-            <Button variant="outline" size="md" fullWidth>
-              <FiRefreshCw style={{ marginRight: '0.5rem' }} />
-              Refresh
-            </Button>
-          </ActionButtons>
-        </Card>
-
-        <FullWidthCard
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.2 }}
-        >
-          <TabContainer>
-            <Tab $active={activeTab === 'overview'} onClick={() => setActiveTab('overview')}>
-              Overview
-            </Tab>
-            <Tab $active={activeTab === 'integration'} onClick={() => setActiveTab('integration')}>
-              Integration Code
-            </Tab>
-            <Tab $active={activeTab === 'webhooks'} onClick={() => setActiveTab('webhooks')}>
-              Webhooks
-            </Tab>
-          </TabContainer>
-
-          {activeTab === 'integration' && (
-            <>
-              <CardTitle style={{ marginBottom: '1rem' }}>Integration Code</CardTitle>
-              <p style={{ fontSize: '0.875rem', color: '#9CA3AF', marginBottom: '1rem' }}>
-                Use this code snippet to integrate virtual account creation and webhook handling in your application.
-              </p>
-              <CodeBlock>
-                <CopyCodeButton onClick={() => copyToClipboard(integrationCode, 'code')}>
-                  {copiedField === 'code' ? <><FiCheckCircle /> Copied</> : <><FiCopy /> Copy</>}
-                </CopyCodeButton>
-                <pre>{integrationCode}</pre>
-              </CodeBlock>
-            </>
-          )}
-
-          {activeTab === 'overview' && (
-            <>
-              <CardTitle style={{ marginBottom: '1rem' }}>Recent Activity</CardTitle>
-              <div style={{ textAlign: 'center', padding: '3rem 0', color: '#9CA3AF' }}>
-                <FiClock style={{ width: '48px', height: '48px', margin: '0 auto 1rem' }} />
-                <p>No recent activity</p>
-                <p style={{ fontSize: '0.875rem', marginTop: '0.5rem' }}>
-                  Transactions will appear here once you start accepting payments
-                </p>
-              </div>
-            </>
-          )}
-
-          {activeTab === 'webhooks' && (
-            <>
-              <CardTitle style={{ marginBottom: '1rem' }}>Webhook Configuration</CardTitle>
-              <DetailRow>
-                <DetailLabel>Webhook URL</DetailLabel>
-                <DetailValue>
-                  https://yoursite.com/webhooks/davspay
-                  <CopyButton onClick={() => copyToClipboard('https://yoursite.com/webhooks/davspay', 'webhook')}>
-                    {copiedField === 'webhook' ? <FiCheckCircle /> : <FiCopy />}
-                  </CopyButton>
-                </DetailValue>
-              </DetailRow>
-              <DetailRow>
-                <DetailLabel>Last Webhook Call</DetailLabel>
-                <DetailValue>Never</DetailValue>
-              </DetailRow>
-              <DetailRow>
-                <DetailLabel>Success Rate</DetailLabel>
-                <DetailValue>0%</DetailValue>
-              </DetailRow>
-              <ActionButtons style={{ marginTop: '1.5rem' }}>
-                <Button variant="outline" size="md">
-                  Test Webhook
-                </Button>
-                <Button variant="outline" size="md">
-                  View Logs
-                </Button>
-              </ActionButtons>
-            </>
-          )}
-        </FullWidthCard>
-      </ContentGrid>
+          <Button type="submit" variant="primary" size="lg" fullWidth disabled={loading}>
+            {loading ? 'Submitting...' : 'Submit Request'}
+          </Button>
+        </Form>
+      </Card>
     </DashboardLayout>
   );
 }

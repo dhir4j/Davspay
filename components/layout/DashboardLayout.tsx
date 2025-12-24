@@ -303,7 +303,7 @@ const HelpModal = styled(motion.div)`
   padding: ${({ theme }) => theme.spacing.xl};
   width: 90%;
   max-width: 500px;
-  z-index: 2000;
+  z-index: 10000;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 `;
 
@@ -311,7 +311,7 @@ const HelpModalOverlay = styled(motion.div)`
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
-  z-index: 1999;
+  z-index: 9999;
 `;
 
 const HelpModalHeader = styled.div`
@@ -388,8 +388,15 @@ const SupportInfo = styled.div`
 const SupportName = styled.div`
   font-weight: 600;
   font-size: 1.125rem;
-  color: ${({ theme }) => theme.colors.text};
+  color: ${({ theme }) => theme.colors.primary};
   margin-bottom: 0.25rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.primaryDark};
+    text-decoration: underline;
+  }
 `;
 
 const SupportEmail = styled.a`
@@ -452,6 +459,141 @@ const HelpLinkContent = styled.div`
   display: flex;
   align-items: center;
   gap: 0.75rem;
+`;
+
+const ChatBox = styled(motion.div)`
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 400px;
+  max-height: 600px;
+  background: ${({ theme }) => theme.colors.surface};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: ${({ theme }) => theme.borderRadius.xl};
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  z-index: 10001;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    width: calc(100% - 2rem);
+    right: 1rem;
+    bottom: 1rem;
+    max-height: 500px;
+  }
+`;
+
+const ChatHeader = styled.div`
+  padding: 1rem 1.5rem;
+  background: ${({ theme }) => theme.colors.gradient};
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const ChatHeaderTitle = styled.div`
+  font-weight: 600;
+  font-size: 1rem;
+`;
+
+const ChatCloseButton = styled.button`
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+`;
+
+const ChatMessages = styled.div`
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  background: ${({ theme }) => theme.colors.background};
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const Message = styled.div<{ $fromUser: boolean }>`
+  display: flex;
+  justify-content: ${({ $fromUser }) => ($fromUser ? 'flex-end' : 'flex-start')};
+`;
+
+const MessageBubble = styled.div<{ $fromUser: boolean }>`
+  max-width: 70%;
+  padding: 0.75rem 1rem;
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  background: ${({ $fromUser, theme }) =>
+    $fromUser ? theme.colors.primary : theme.colors.surface};
+  color: ${({ $fromUser, theme }) =>
+    $fromUser ? 'white' : theme.colors.text};
+  font-size: 0.875rem;
+  line-height: 1.5;
+  word-wrap: break-word;
+`;
+
+const ChatInput = styled.form`
+  padding: 1rem;
+  border-top: 1px solid ${({ theme }) => theme.colors.border};
+  display: flex;
+  gap: 0.75rem;
+  background: ${({ theme }) => theme.colors.surface};
+`;
+
+const ChatInputField = styled.input`
+  flex: 1;
+  padding: 0.75rem 1rem;
+  background: ${({ theme }) => theme.colors.background};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  color: ${({ theme }) => theme.colors.text};
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+
+  &:focus {
+    outline: none;
+    border-color: ${({ theme }) => theme.colors.primary};
+  }
+
+  &::placeholder {
+    color: ${({ theme }) => theme.colors.textSecondary};
+  }
+`;
+
+const ChatSendButton = styled.button`
+  padding: 0.75rem 1.5rem;
+  background: ${({ theme }) => theme.colors.primary};
+  color: white;
+  border: none;
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.primaryDark};
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 `;
 
 const MainContent = styled.main`
@@ -537,7 +679,12 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [expandedMenus, setExpandedMenus] = useState<string[]>(['virtual-accounts']);
   const [helpModalOpen, setHelpModalOpen] = useState(false);
+  const [chatBoxOpen, setChatBoxOpen] = useState(false);
   const [supportPerson] = useState(() => generateSupportName());
+  const [chatMessage, setChatMessage] = useState('');
+  const [messages, setMessages] = useState<Array<{ text: string; fromUser: boolean }>>([
+    { text: `Hi! I'm ${generateSupportName().split(' ')[0]} from Davspay support. How can I help you today?`, fromUser: false }
+  ]);
   const pathname = usePathname();
   const { user, logout } = useAuth();
 
@@ -628,6 +775,33 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const supportEmail = `${supportPerson.toLowerCase().replace(' ', '.')}@davspay.com`;
   const supportInitials = getInitials(supportPerson);
 
+  const handleChatSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!chatMessage.trim()) return;
+
+    // Add user message
+    setMessages([...messages, { text: chatMessage, fromUser: true }]);
+    setChatMessage('');
+
+    // Simulate support response
+    setTimeout(() => {
+      const responses = [
+        "Thank you for your message. Our team will look into this right away!",
+        "I understand your concern. Let me check that for you.",
+        "That's a great question! I'll get you the answer shortly.",
+        "I've noted down your request. We'll get back to you soon!",
+        "Thanks for reaching out! I'm here to help you with any questions."
+      ];
+      const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+      setMessages(prev => [...prev, { text: randomResponse, fromUser: false }]);
+    }, 1000);
+  };
+
+  const openChatBox = () => {
+    setHelpModalOpen(false);
+    setChatBoxOpen(true);
+  };
+
   return (
     <DashboardContainer>
       <AnimatePresence>
@@ -667,7 +841,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
                 <SupportPerson>
                   <SupportAvatar>{supportInitials}</SupportAvatar>
                   <SupportInfo>
-                    <SupportName>{supportPerson}</SupportName>
+                    <SupportName onClick={openChatBox}>{supportPerson}</SupportName>
                     <SupportEmail href={`mailto:${supportEmail}`}>
                       <FiMail />
                       {supportEmail}
@@ -708,6 +882,46 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
               </HelpContent>
             </HelpModal>
           </>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {chatBoxOpen && (
+          <ChatBox
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+          >
+            <ChatHeader>
+              <ChatHeaderTitle>Chat with {supportPerson.split(' ')[0]}</ChatHeaderTitle>
+              <ChatCloseButton onClick={() => setChatBoxOpen(false)}>
+                <FiX />
+              </ChatCloseButton>
+            </ChatHeader>
+
+            <ChatMessages>
+              {messages.map((msg, index) => (
+                <Message key={index} $fromUser={msg.fromUser}>
+                  <MessageBubble $fromUser={msg.fromUser}>
+                    {msg.text}
+                  </MessageBubble>
+                </Message>
+              ))}
+            </ChatMessages>
+
+            <ChatInput onSubmit={handleChatSubmit}>
+              <ChatInputField
+                type="text"
+                placeholder="Type your message..."
+                value={chatMessage}
+                onChange={(e) => setChatMessage(e.target.value)}
+              />
+              <ChatSendButton type="submit" disabled={!chatMessage.trim()}>
+                Send
+              </ChatSendButton>
+            </ChatInput>
+          </ChatBox>
         )}
       </AnimatePresence>
 
