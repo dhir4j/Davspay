@@ -22,8 +22,12 @@ const FeaturesSection = styled.section`
   position: relative;
   overflow-x: hidden;
 
+  @media (max-width: 968px) {
+    padding: ${({ theme }) => theme.spacing.xl} 1.5rem;
+  }
+
   @media (max-width: 768px) {
-    padding: ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.sm};
+    padding: ${({ theme }) => theme.spacing.lg} 1rem;
   }
 `;
 
@@ -69,6 +73,12 @@ const SectionDescription = styled(motion.p)`
   max-width: 700px;
   margin: 0 auto;
   line-height: 1.8;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+    line-height: 1.6;
+    padding: 0 1rem;
+  }
 `;
 
 const WhyDavspaySection = styled.div`

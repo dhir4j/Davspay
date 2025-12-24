@@ -334,9 +334,6 @@ export default function RegisterPage() {
                 onChange={handleChange}
               />
             </InputWrapper>
-            <HelpText>
-              If GST not present contact - <a href="mailto:contact@davspay.com">contact@davspay.com</a>
-            </HelpText>
           </InputGroup>
 
           <InputGroup>

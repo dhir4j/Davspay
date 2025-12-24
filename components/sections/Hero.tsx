@@ -17,11 +17,17 @@ const HeroSection = styled.section`
   padding: ${({ theme }) => theme.spacing.xxl} ${({ theme }) => theme.spacing.md};
   padding-top: calc(${({ theme }) => theme.spacing.xxl} + 70px);
 
-  @media (max-width: 768px) {
-    padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.sm};
-    padding-top: calc(${({ theme }) => theme.spacing.lg} + 60px);
+  @media (max-width: 968px) {
     min-height: auto;
-    overflow-x: hidden;
+    padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.md};
+    padding-top: calc(${({ theme }) => theme.spacing.xl} + 70px);
+    padding-bottom: ${({ theme }) => theme.spacing.xl};
+  }
+
+  @media (max-width: 768px) {
+    padding: ${({ theme }) => theme.spacing.lg} 1rem;
+    padding-top: calc(${({ theme }) => theme.spacing.lg} + 60px);
+    padding-bottom: ${({ theme }) => theme.spacing.lg};
   }
 `;
 
@@ -37,6 +43,13 @@ const GlowOrb = styled(motion.div)<{ $top?: string; $left?: string; $color?: str
   left: ${({ $left }) => $left || '50%'};
   transform: translate(-50%, -50%);
   z-index: -1;
+
+  @media (max-width: 768px) {
+    width: 300px;
+    height: 300px;
+    filter: blur(60px);
+    opacity: 0.15;
+  }
 `;
 
 const HeroContent = styled.div`
@@ -62,6 +75,13 @@ const Badge = styled(motion.div)`
 
   svg {
     animation: pulse 2s infinite;
+    width: 16px;
+    height: 16px;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 0.8125rem;
+    padding: 0.4rem 0.875rem;
   }
 
   @keyframes pulse {
@@ -75,16 +95,30 @@ const Badge = styled(motion.div)`
 `;
 
 const Title = styled(motion.h1)`
-  font-size: clamp(1.75rem, 6vw, 5rem);
+  font-size: clamp(2rem, 5vw, 4.5rem);
   font-weight: 900;
-  line-height: 1.2;
+  line-height: 1.15;
   margin-bottom: ${({ theme }) => theme.spacing.md};
   font-family: ${({ theme }) => theme.fonts.secondary};
   word-wrap: break-word;
   overflow-wrap: break-word;
 
+  @media (max-width: 968px) {
+    font-size: clamp(1.75rem, 6vw, 3rem);
+    line-height: 1.2;
+  }
+
   @media (max-width: 768px) {
-    font-size: clamp(1.5rem, 8vw, 2.5rem);
+    font-size: clamp(1.5rem, 7vw, 2.25rem);
+    line-height: 1.25;
+    margin-bottom: 1rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.75rem;
+    br {
+      display: none;
+    }
   }
 
   .gradient-text {
@@ -93,27 +127,43 @@ const Title = styled(motion.h1)`
     -webkit-text-fill-color: transparent;
     background-clip: text;
     animation: glow 3s ease-in-out infinite;
+    display: inline-block;
   }
 `;
 
 const Subtitle = styled(motion.p)`
-  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-size: clamp(0.9375rem, 2vw, 1.125rem);
   color: ${({ theme }) => theme.colors.textSecondary};
   max-width: 700px;
   margin: 0 auto ${({ theme }) => theme.spacing.xl} auto;
-  line-height: 1.8;
+  line-height: 1.7;
+  padding: 0 1rem;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: ${({ theme }) => theme.spacing.lg};
+    padding: 0 0.5rem;
+  }
 `;
 
 const CTAButtons = styled(motion.div)`
   display: flex;
-  gap: ${({ theme }) => theme.spacing.md};
+  gap: 1rem;
   justify-content: center;
   flex-wrap: wrap;
   margin-bottom: ${({ theme }) => theme.spacing.xxl};
 
   @media (max-width: 768px) {
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
+    gap: 0.75rem;
+    margin-bottom: ${({ theme }) => theme.spacing.lg};
+    padding: 0 1rem;
+    width: 100%;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
   }
 `;
 
@@ -126,10 +176,16 @@ const StatsContainer = styled(motion.div)`
   margin-top: ${({ theme }) => theme.spacing.xxl};
   width: 100%;
 
+  @media (max-width: 968px) {
+    gap: 1rem;
+    margin-top: ${({ theme }) => theme.spacing.xl};
+  }
+
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
-    gap: ${({ theme }) => theme.spacing.md};
+    gap: 0.75rem;
     margin-top: ${({ theme }) => theme.spacing.lg};
+    padding: 0 1rem;
   }
 `;
 
@@ -140,11 +196,20 @@ const StatCard = styled(motion.div)`
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   transition: all 0.3s ease;
+  text-align: center;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
 
   &:hover {
     border-color: ${({ theme }) => theme.colors.primary};
     box-shadow: ${({ theme }) => theme.shadows.neon};
     transform: translateY(-5px);
+
+    @media (max-width: 768px) {
+      transform: translateY(-2px);
+    }
   }
 `;
 
@@ -171,6 +236,10 @@ const StatValue = styled.h3`
   color: ${({ theme }) => theme.colors.primary};
   margin-bottom: 0.25rem;
   font-family: ${({ theme }) => theme.fonts.secondary};
+
+  @media (max-width: 768px) {
+    font-size: 1.75rem;
+  }
 `;
 
 const StatLabel = styled.p`
@@ -185,8 +254,14 @@ const HeroBottomImage = styled(motion.div)`
   overflow: hidden;
   box-shadow: ${({ theme }) => theme.shadows.lg};
 
+  @media (max-width: 968px) {
+    margin-top: ${({ theme }) => theme.spacing.xl};
+  }
+
   @media (max-width: 768px) {
     max-width: 100%;
+    margin: ${({ theme }) => theme.spacing.lg} 1rem 0;
+    border-radius: ${({ theme }) => theme.borderRadius.md};
   }
 `;
 

@@ -24,15 +24,21 @@ const Nav = styled(motion.nav)<{ $scrolled: boolean }>`
 `;
 
 const NavContainer = styled.div`
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 1rem ${({ theme }) => theme.spacing.md};
+  padding: 0.75rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 2rem;
+
+  @media (max-width: 968px) {
+    padding: 0.75rem 1.5rem;
+    gap: 1rem;
+  }
 
   @media (max-width: 768px) {
-    padding: 0.75rem ${({ theme }) => theme.spacing.sm};
+    padding: 0.75rem 1rem;
   }
 `;
 
@@ -41,26 +47,32 @@ const Logo = styled(Link)`
   align-items: center;
   cursor: pointer;
   transition: all 0.3s ease;
+  flex-shrink: 0;
 
   img {
+    @media (max-width: 968px) {
+      width: 200px !important;
+      height: auto !important;
+    }
+
     @media (max-width: 768px) {
-      width: 280px !important;
-      height: 100px !important;
+      width: 160px !important;
+      height: auto !important;
     }
   }
 
   &:hover {
-    transform: scale(1.05);
-    filter: drop-shadow(0 0 10px ${({ theme }) => theme.colors.primary}80);
+    transform: scale(1.02);
+    filter: drop-shadow(0 0 8px ${({ theme }) => theme.colors.primary}60);
   }
 `;
 
 const NavLinks = styled.div`
   display: flex;
   align-items: center;
-  gap: ${({ theme }) => theme.spacing.md};
+  gap: 0.5rem;
 
-  @media (max-width: 768px) {
+  @media (max-width: 968px) {
     display: none;
   }
 `;
@@ -69,8 +81,10 @@ const NavLink = styled(Link)`
   position: relative;
   color: ${({ theme }) => theme.colors.text};
   font-weight: 500;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.875rem;
   transition: color 0.3s ease;
+  font-size: 0.9375rem;
+  white-space: nowrap;
 
   &::after {
     content: '';
@@ -104,13 +118,14 @@ const MobileMenuButton = styled(motion.button)`
   background: transparent;
   color: ${({ theme }) => theme.colors.text};
   cursor: pointer;
+  flex-shrink: 0;
 
   svg {
     width: 24px;
     height: 24px;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 968px) {
     display: flex;
   }
 `;
@@ -150,7 +165,8 @@ const MobileNavLink = styled(Link)`
 const RightSection = styled.div`
   display: flex;
   align-items: center;
-  gap: ${({ theme }) => theme.spacing.sm};
+  gap: 0.75rem;
+  flex-shrink: 0;
 `;
 
 const Navbar = () => {
@@ -184,9 +200,9 @@ const Navbar = () => {
         <Logo href="/">
           <Image
             src="/images/logo.png"
-            alt="Davspay Solutions"
-            width={360}
-            height={120}
+            alt="Davspay"
+            width={240}
+            height={80}
             priority
             style={{ objectFit: 'contain' }}
           />
