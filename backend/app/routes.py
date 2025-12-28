@@ -5,6 +5,46 @@ from app import bcrypt
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/api')
 
+@auth_bp.route('/', methods=['GET'])
+def api_root():
+    """API root endpoint - shows available endpoints"""
+    return jsonify({
+        'success': True,
+        'message': 'Davspay Payment Gateway API',
+        'version': '1.0.0',
+        'endpoints': {
+            'health': {
+                'method': 'GET',
+                'path': '/api/health',
+                'description': 'Check API health status'
+            },
+            'register': {
+                'method': 'POST',
+                'path': '/api/auth/register',
+                'description': 'Register a new user account',
+                'requires_auth': False
+            },
+            'login': {
+                'method': 'POST',
+                'path': '/api/auth/login',
+                'description': 'Login with email and password',
+                'requires_auth': False
+            },
+            'profile': {
+                'method': 'GET',
+                'path': '/api/auth/me',
+                'description': 'Get current user profile',
+                'requires_auth': True
+            },
+            'update_profile': {
+                'method': 'PUT',
+                'path': '/api/auth/update-profile',
+                'description': 'Update user profile',
+                'requires_auth': True
+            }
+        }
+    }), 200
+
 @auth_bp.route('/health', methods=['GET'])
 def health_check():
     """Health check endpoint"""

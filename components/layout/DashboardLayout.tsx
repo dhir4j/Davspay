@@ -1,11 +1,12 @@
 'use client';
 
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import VerificationModal from '../VerificationModal';
 import {
   FiGrid,
   FiCreditCard,
@@ -299,12 +300,12 @@ const HelpModal = styled(motion.div)`
   transform: translate(-50%, -50%);
   background: ${({ theme }) => theme.colors.surface};
   border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.borderRadius.xl};
-  padding: ${({ theme }) => theme.spacing.xl};
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  padding: ${({ theme }) => theme.spacing.lg};
   width: 90%;
-  max-width: 500px;
+  max-width: 380px;
   z-index: 10000;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 `;
 
 const HelpModalOverlay = styled(motion.div)`
@@ -318,16 +319,16 @@ const HelpModalHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: ${({ theme }) => theme.spacing.lg};
-  padding-bottom: ${({ theme }) => theme.spacing.md};
+  margin-bottom: ${({ theme }) => theme.spacing.md};
+  padding-bottom: ${({ theme }) => theme.spacing.sm};
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
 `;
 
 const HelpModalTitle = styled.h3`
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: 1.125rem;
+  font-weight: 600;
   color: ${({ theme }) => theme.colors.text};
-  font-family: ${({ theme }) => theme.fonts.secondary};
+  font-family: ${({ theme }) => theme.fonts.primary};
 `;
 
 const CloseModalButton = styled.button`
@@ -335,7 +336,7 @@ const CloseModalButton = styled.button`
   border: none;
   color: ${({ theme }) => theme.colors.textSecondary};
   cursor: pointer;
-  padding: 0.5rem;
+  padding: 0.25rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -343,110 +344,48 @@ const CloseModalButton = styled.button`
   transition: all 0.2s ease;
 
   svg {
-    width: 24px;
-    height: 24px;
+    width: 18px;
+    height: 18px;
   }
 
   &:hover {
-    background: ${({ theme }) => theme.colors.background};
     color: ${({ theme }) => theme.colors.text};
   }
 `;
 
 const HelpContent = styled.div`
-  margin-bottom: ${({ theme }) => theme.spacing.lg};
-`;
-
-const SupportPerson = styled.div`
   display: flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.md};
-  padding: ${({ theme }) => theme.spacing.lg};
-  background: ${({ theme }) => theme.colors.background};
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
-  margin-bottom: ${({ theme }) => theme.spacing.lg};
-`;
-
-const SupportAvatar = styled.div`
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: ${({ theme }) => theme.colors.gradient};
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 1.5rem;
-  flex-shrink: 0;
-`;
-
-const SupportInfo = styled.div`
-  flex: 1;
-`;
-
-const SupportName = styled.div`
-  font-weight: 600;
-  font-size: 1.125rem;
-  color: ${({ theme }) => theme.colors.primary};
-  margin-bottom: 0.25rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.primaryDark};
-    text-decoration: underline;
-  }
-`;
-
-const SupportEmail = styled.a`
-  font-size: 0.875rem;
-  color: ${({ theme }) => theme.colors.primary};
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  text-decoration: none;
-  transition: all 0.2s ease;
-
-  svg {
-    width: 14px;
-    height: 14px;
-  }
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.primaryDark};
-    text-decoration: underline;
-  }
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.xs};
 `;
 
 const HelpLinks = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.sm};
+  gap: 0;
 `;
 
 const HelpLink = styled.a`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: ${({ theme }) => theme.spacing.md};
-  background: ${({ theme }) => theme.colors.background};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
+  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
   color: ${({ theme }) => theme.colors.text};
   text-decoration: none;
-  font-weight: 500;
+  font-size: 0.875rem;
+  font-weight: 400;
   transition: all 0.2s ease;
+  border-left: 2px solid transparent;
 
   svg {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     color: ${({ theme }) => theme.colors.textSecondary};
   }
 
   &:hover {
-    background: ${({ theme }) => theme.colors.primary}10;
-    border-color: ${({ theme }) => theme.colors.primary};
+    background: ${({ theme }) => theme.colors.background};
+    border-left-color: ${({ theme }) => theme.colors.primary};
     color: ${({ theme }) => theme.colors.primary};
 
     svg {
@@ -458,7 +397,7 @@ const HelpLink = styled.a`
 const HelpLinkContent = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.625rem;
 `;
 
 const ChatBox = styled(motion.div)`
@@ -680,6 +619,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const [expandedMenus, setExpandedMenus] = useState<string[]>(['virtual-accounts']);
   const [helpModalOpen, setHelpModalOpen] = useState(false);
   const [chatBoxOpen, setChatBoxOpen] = useState(false);
+  const [verificationModalOpen, setVerificationModalOpen] = useState(false);
   const [supportPerson] = useState(() => generateSupportName());
   const [chatMessage, setChatMessage] = useState('');
   const [messages, setMessages] = useState<Array<{ text: string; fromUser: boolean }>>([
@@ -687,6 +627,15 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   ]);
   const pathname = usePathname();
   const { user, logout } = useAuth();
+
+  // Auto-trigger verification modal after a few seconds
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setVerificationModalOpen(true);
+    }, 3000); // 3 seconds delay
+
+    return () => clearTimeout(timer);
+  }, [pathname]);
 
   const toggleMenu = (menuId: string) => {
     setExpandedMenus((prev) =>
@@ -838,17 +787,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
               </HelpModalHeader>
 
               <HelpContent>
-                <SupportPerson>
-                  <SupportAvatar>{supportInitials}</SupportAvatar>
-                  <SupportInfo>
-                    <SupportName onClick={openChatBox}>{supportPerson}</SupportName>
-                    <SupportEmail href={`mailto:${supportEmail}`}>
-                      <FiMail />
-                      {supportEmail}
-                    </SupportEmail>
-                  </SupportInfo>
-                </SupportPerson>
-
                 <HelpLinks>
                   <HelpLink href="/developers">
                     <HelpLinkContent>
@@ -1020,6 +958,11 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 
         <ContentArea>{children}</ContentArea>
       </MainContent>
+
+      <VerificationModal
+        isOpen={verificationModalOpen}
+        onClose={() => setVerificationModalOpen(false)}
+      />
     </DashboardContainer>
   );
 };
