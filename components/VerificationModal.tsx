@@ -386,8 +386,9 @@ export default VerificationModal;
 const Overlay = styled(motion.div)`
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 10000;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 99999;
+  backdrop-filter: blur(2px);
 `;
 
 const Modal = styled(motion.div)`
@@ -398,28 +399,42 @@ const Modal = styled(motion.div)`
   background: ${({ theme }) => theme.colors.surface};
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
-  width: 90%;
-  max-width: 520px;
-  max-height: 85vh;
-  z-index: 10001;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  width: 92%;
+  max-width: 680px;
+  max-height: 90vh;
+  z-index: 100000;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 768px) {
+    width: 95%;
+    max-width: none;
+    max-height: 95vh;
+  }
 `;
 
 const ModalHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: ${({ theme }) => theme.spacing.lg};
+  padding: ${({ theme }) => theme.spacing.xl};
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+
+  @media (max-width: 768px) {
+    padding: ${({ theme }) => theme.spacing.lg};
+  }
 `;
 
 const ModalTitle = styled.h3`
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-weight: 600;
   color: ${({ theme }) => theme.colors.text};
   font-family: ${({ theme }) => theme.fonts.primary};
+
+  @media (max-width: 768px) {
+    font-size: 1.25rem;
+  }
 `;
 
 const CloseButton = styled.button`
@@ -427,26 +442,32 @@ const CloseButton = styled.button`
   border: none;
   color: ${({ theme }) => theme.colors.textSecondary};
   cursor: pointer;
-  padding: 0.25rem;
+  padding: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
 
   svg {
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
   }
 
   &:hover {
     color: ${({ theme }) => theme.colors.text};
+    background: ${({ theme }) => theme.colors.background};
   }
 `;
 
 const ModalContent = styled.div`
   flex: 1;
   overflow-y: auto;
-  padding: ${({ theme }) => theme.spacing.lg};
+  padding: ${({ theme }) => theme.spacing.xl};
+
+  @media (max-width: 768px) {
+    padding: ${({ theme }) => theme.spacing.lg};
+  }
 `;
 
 const PageContainer = styled(motion.div)`
@@ -460,16 +481,16 @@ const InfoSection = styled.div`
 `;
 
 const InfoTitle = styled.h4`
-  font-size: 1.125rem;
+  font-size: 1.375rem;
   font-weight: 600;
   color: ${({ theme }) => theme.colors.text};
-  margin-bottom: ${({ theme }) => theme.spacing.xs};
+  margin-bottom: ${({ theme }) => theme.spacing.sm};
 `;
 
 const InfoText = styled.p`
-  font-size: 0.9375rem;
+  font-size: 1.0625rem;
   color: ${({ theme }) => theme.colors.textSecondary};
-  line-height: 1.6;
+  line-height: 1.7;
 `;
 
 const InfoList = styled.div`
@@ -482,26 +503,27 @@ const InfoList = styled.div`
 const InfoItem = styled.div`
   display: flex;
   align-items: center;
-  gap: ${({ theme }) => theme.spacing.sm};
-  font-size: 0.9375rem;
+  gap: ${({ theme }) => theme.spacing.md};
+  font-size: 1.0625rem;
   color: ${({ theme }) => theme.colors.text};
 
   svg {
     color: ${({ theme }) => theme.colors.success};
     flex-shrink: 0;
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
   }
 `;
 
 const InfoNote = styled.div`
-  padding: ${({ theme }) => theme.spacing.md};
+  padding: ${({ theme }) => theme.spacing.lg};
   background: ${({ theme }) => theme.colors.background};
   border-left: 3px solid ${({ theme }) => theme.colors.primary};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
-  font-size: 0.875rem;
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  font-size: 1rem;
   color: ${({ theme }) => theme.colors.textSecondary};
-  margin-top: ${({ theme }) => theme.spacing.sm};
+  margin-top: ${({ theme }) => theme.spacing.md};
+  line-height: 1.6;
 `;
 
 const FormSection = styled.div`
@@ -511,20 +533,20 @@ const FormSection = styled.div`
 `;
 
 const FormTitle = styled.h4`
-  font-size: 1.125rem;
+  font-size: 1.375rem;
   font-weight: 600;
   color: ${({ theme }) => theme.colors.text};
-  margin-bottom: ${({ theme }) => theme.spacing.xs};
+  margin-bottom: ${({ theme }) => theme.spacing.sm};
 `;
 
 const FormField = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.625rem;
 `;
 
 const Label = styled.label`
-  font-size: 0.875rem;
+  font-size: 1rem;
   font-weight: 500;
   color: ${({ theme }) => theme.colors.text};
 `;
@@ -534,10 +556,10 @@ const Required = styled.span`
 `;
 
 const Input = styled.input`
-  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
+  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
   border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
-  font-size: 0.9375rem;
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  font-size: 1rem;
   color: ${({ theme }) => theme.colors.text};
   background: ${({ theme }) => theme.colors.surface};
   transition: all 0.2s ease;
@@ -554,10 +576,10 @@ const Input = styled.input`
 `;
 
 const Select = styled.select`
-  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
+  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
   border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
-  font-size: 0.9375rem;
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  font-size: 1rem;
   color: ${({ theme }) => theme.colors.text};
   background: ${({ theme }) => theme.colors.surface};
   transition: all 0.2s ease;
@@ -580,21 +602,25 @@ const ModalFooter = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: ${({ theme }) => theme.spacing.lg};
+  padding: ${({ theme }) => theme.spacing.xl};
   border-top: 1px solid ${({ theme }) => theme.colors.border};
   gap: ${({ theme }) => theme.spacing.md};
+
+  @media (max-width: 768px) {
+    padding: ${({ theme }) => theme.spacing.lg};
+  }
 `;
 
 const BackButton = styled.button`
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
+  gap: 0.625rem;
+  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
   border: 1px solid ${({ theme }) => theme.colors.border};
   background: ${({ theme }) => theme.colors.surface};
   color: ${({ theme }) => theme.colors.text};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
-  font-size: 0.9375rem;
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -604,21 +630,21 @@ const BackButton = styled.button`
   }
 
   svg {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
   }
 `;
 
 const ContinueButton = styled.button`
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.lg};
+  gap: 0.625rem;
+  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.xl};
   background: ${({ theme }) => theme.colors.gradient};
   color: white;
   border: none;
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
-  font-size: 0.9375rem;
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -635,8 +661,8 @@ const ContinueButton = styled.button`
   }
 
   svg {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
   }
 `;
 
@@ -645,57 +671,60 @@ const ProcessingContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: ${({ theme }) => theme.spacing.xxl};
+  padding: ${({ theme }) => theme.spacing.xxl} ${({ theme }) => theme.spacing.xl};
   text-align: center;
+  min-height: 400px;
 `;
 
 const ProcessingIcon = styled.div`
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   background: ${({ theme }) => theme.colors.success}15;
   color: ${({ theme }) => theme.colors.success};
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: ${({ theme }) => theme.spacing.lg};
+  margin-bottom: ${({ theme }) => theme.spacing.xl};
 
   svg {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
   }
 `;
 
 const ProcessingTitle = styled.h4`
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: 600;
   color: ${({ theme }) => theme.colors.text};
-  margin-bottom: ${({ theme }) => theme.spacing.md};
-`;
-
-const ProcessingText = styled.p`
-  font-size: 0.9375rem;
-  color: ${({ theme }) => theme.colors.textSecondary};
-  line-height: 1.6;
-  margin-bottom: ${({ theme }) => theme.spacing.md};
-`;
-
-const ProcessingNote = styled.div`
-  padding: ${({ theme }) => theme.spacing.md};
-  background: ${({ theme }) => theme.colors.background};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
-  font-size: 0.875rem;
-  color: ${({ theme }) => theme.colors.textSecondary};
   margin-bottom: ${({ theme }) => theme.spacing.lg};
 `;
 
+const ProcessingText = styled.p`
+  font-size: 1.0625rem;
+  color: ${({ theme }) => theme.colors.textSecondary};
+  line-height: 1.7;
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
+  max-width: 500px;
+`;
+
+const ProcessingNote = styled.div`
+  padding: ${({ theme }) => theme.spacing.lg};
+  background: ${({ theme }) => theme.colors.background};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  font-size: 1rem;
+  color: ${({ theme }) => theme.colors.textSecondary};
+  margin-bottom: ${({ theme }) => theme.spacing.xl};
+  max-width: 500px;
+`;
+
 const CloseProcessingButton = styled.button`
-  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.xl};
+  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.xxl};
   background: ${({ theme }) => theme.colors.gradient};
   color: white;
   border: none;
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
-  font-size: 0.9375rem;
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
