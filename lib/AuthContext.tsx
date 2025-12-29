@@ -15,7 +15,7 @@ interface User {
 interface AuthContextType {
   user: User | null;
   token: string | null;
-  login: (email: string, password: string) => Promise<boolean>;
+  login: (email: string, password: string, rememberMe?: boolean) => Promise<boolean>;
   register: (data: RegisterData) => Promise<boolean>;
   logout: () => void;
   isAuthenticated: boolean;
@@ -54,9 +54,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const router = useRouter();
 
   useEffect(() => {
-    // Check for stored token on mount
-    const storedToken = localStorage.getItem('davspay_token');
-    const storedUser = localStorage.getItem('davspay_user');
+    // Check for stored token on mount (check both localStorage and sessionStorage)
+    let storedToken = localStorage.getItem('davspay_token');
+    let storedUser = localStorage.getItem('davspay_user');
+
+    // If not in localStorage, check sessionStorage
+    if (!storedToken) {
+      storedToken = sessionStorage.getItem('davspay_token');
+      storedUser = sessionStorage.getItem('davspay_user');
+    }
 
     if (storedToken && storedUser) {
       setToken(storedToken);
@@ -65,7 +71,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setLoading(false);
   }, []);
 
-  const login = async (email: string, password: string): Promise<boolean> => {
+  const login = async (email: string, password: string, rememberMe?: boolean): Promise<boolean> => {
     try {
       const response = await fetch(`${API_URL}/auth/login`, {
         method: 'POST',
@@ -81,8 +87,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         const { user, access_token } = data.data;
         setUser(user);
         setToken(access_token);
-        localStorage.setItem('davspay_token', access_token);
-        localStorage.setItem('davspay_user', JSON.stringify(user));
+
+        // Store with different expiry based on rememberMe
+        if (rememberMe) {
+          // Store in localStorage for persistent login
+          localStorage.setItem('davspay_token', access_token);
+          localStorage.setItem('davspay_user', JSON.stringify(user));
+          localStorage.setItem('davspay_remember', 'true');
+        } else {
+          // Store in sessionStorage for session-only login
+          sessionStorage.setItem('davspay_token', access_token);
+          sessionStorage.setItem('davspay_user', JSON.stringify(user));
+        }
+
         return true;
       }
 
@@ -124,8 +141,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const logout = () => {
     setUser(null);
     setToken(null);
+    // Clear both localStorage and sessionStorage
     localStorage.removeItem('davspay_token');
     localStorage.removeItem('davspay_user');
+    localStorage.removeItem('davspay_remember');
+    sessionStorage.removeItem('davspay_token');
+    sessionStorage.removeItem('davspay_user');
     router.push('/');
   };
 
