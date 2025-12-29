@@ -7,6 +7,7 @@ from psycopg2.extras import RealDictCursor
 from datetime import timedelta
 import os
 from dotenv import load_dotenv
+from services.twofactor import TwoFactorService
 
 # Load environment variables
 load_dotenv()
@@ -399,6 +400,76 @@ def update_profile():
         return jsonify({
             'success': False,
             'message': 'An error occurred while updating profile'
+        }), 500
+
+@app.route('/api/auth/send-otp', methods=['POST'])
+def send_otp():
+    """Send OTP to phone number"""
+    try:
+        data = request.get_json()
+        phone = data.get('phone')
+
+        if not phone:
+            return jsonify({
+                'success': False,
+                'message': 'Phone number is required'
+            }), 400
+
+        # Send OTP via 2Factor API
+        result = TwoFactorService.send_otp(phone)
+
+        if result.get('Status') == 'Success':
+            return jsonify({
+                'success': True,
+                'message': 'OTP sent successfully',
+                'session_id': result.get('Details')
+            }), 200
+        else:
+            return jsonify({
+                'success': False,
+                'message': result.get('Details', 'Failed to send OTP')
+            }), 500
+
+    except Exception as e:
+        print(f"Send OTP error: {e}")
+        return jsonify({
+            'success': False,
+            'message': 'An error occurred while sending OTP'
+        }), 500
+
+@app.route('/api/auth/verify-otp', methods=['POST'])
+def verify_otp():
+    """Verify OTP using session ID"""
+    try:
+        data = request.get_json()
+        session_id = data.get('session_id')
+        otp = data.get('otp')
+
+        if not session_id or not otp:
+            return jsonify({
+                'success': False,
+                'message': 'session_id and otp are required'
+            }), 400
+
+        # Verify OTP via 2Factor API
+        result = TwoFactorService.verify_otp(session_id, otp)
+
+        if result.get('Status') == 'Success':
+            return jsonify({
+                'success': True,
+                'message': 'OTP verified successfully'
+            }), 200
+        else:
+            return jsonify({
+                'success': False,
+                'message': result.get('Details', 'Invalid OTP')
+            }), 400
+
+    except Exception as e:
+        print(f"Verify OTP error: {e}")
+        return jsonify({
+            'success': False,
+            'message': 'An error occurred while verifying OTP'
         }), 500
 
 @app.errorhandler(404)

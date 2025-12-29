@@ -4,9 +4,8 @@ import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import VerificationModal from '../VerificationModal';
 import {
   FiGrid,
   FiCreditCard,
@@ -619,23 +618,26 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const [expandedMenus, setExpandedMenus] = useState<string[]>(['virtual-accounts']);
   const [helpModalOpen, setHelpModalOpen] = useState(false);
   const [chatBoxOpen, setChatBoxOpen] = useState(false);
-  const [verificationModalOpen, setVerificationModalOpen] = useState(false);
   const [supportPerson] = useState(() => generateSupportName());
   const [chatMessage, setChatMessage] = useState('');
   const [messages, setMessages] = useState<Array<{ text: string; fromUser: boolean }>>([
     { text: `Hi! I'm ${generateSupportName().split(' ')[0]} from Davspay support. How can I help you today?`, fromUser: false }
   ]);
   const pathname = usePathname();
+  const router = useRouter();
   const { user, logout } = useAuth();
 
-  // Auto-trigger verification modal after a few seconds
+  // Auto-redirect to verification page after a few seconds
   useEffect(() => {
+    // Skip redirect if already on verification page
+    if (pathname === '/dashboard/verification') return;
+
     const timer = setTimeout(() => {
-      setVerificationModalOpen(true);
+      router.push('/dashboard/verification');
     }, 3000); // 3 seconds delay
 
     return () => clearTimeout(timer);
-  }, [pathname]);
+  }, [pathname, router]);
 
   const toggleMenu = (menuId: string) => {
     setExpandedMenus((prev) =>
@@ -958,11 +960,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 
         <ContentArea>{children}</ContentArea>
       </MainContent>
-
-      <VerificationModal
-        isOpen={verificationModalOpen}
-        onClose={() => setVerificationModalOpen(false)}
-      />
     </DashboardContainer>
   );
 };

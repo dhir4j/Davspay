@@ -23,6 +23,9 @@ class Config:
     # CORS
     CORS_ORIGINS = os.getenv('CORS_ORIGINS', 'http://localhost:3000').split(',')
 
+    # 2Factor API
+    TWO_FACTOR_API_KEY = os.getenv('TWO_FACTOR_API_KEY')
+
 class DevelopmentConfig(Config):
     """Development configuration"""
     DEBUG = True
