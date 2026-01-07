@@ -49,22 +49,22 @@ export interface Theme {
 export const darkTheme: Theme = {
   name: 'dark',
   colors: {
-    primary: '#A78BFA',        // Light violet
-    primaryDark: '#7C3AED',
-    primaryLight: '#C4B5FD',
-    secondary: '#60A5FA',       // Cyan blue
-    accent: '#F472B6',          // Pink accent
-    background: '#0A0A0F',      // Deep dark
-    backgroundSecondary: '#1A1A2E',
-    surface: '#16213E',
-    text: '#E4E4E7',
-    textSecondary: '#A1A1AA',
-    border: '#A78BFA40',        // Violet with transparency
-    success: '#4ADE80',
-    error: '#F87171',
-    warning: '#FBBF24',
-    neonGlow: '#A78BFA',
-    gradient: 'linear-gradient(135deg, #A78BFA 0%, #60A5FA 50%, #F472B6 100%)',
+    primary: '#3B82F6',        // Professional blue
+    primaryDark: '#2563EB',
+    primaryLight: '#60A5FA',
+    secondary: '#10B981',       // Emerald green
+    accent: '#8B5CF6',          // Purple accent
+    background: '#0F172A',      // Slate background
+    backgroundSecondary: '#1E293B',
+    surface: '#1E293B',
+    text: '#F1F5F9',
+    textSecondary: '#94A3B8',
+    border: '#334155',
+    success: '#10B981',
+    error: '#EF4444',
+    warning: '#F59E0B',
+    neonGlow: '#3B82F6',
+    gradient: 'linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%)',
   },
   fonts: {
     primary: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
@@ -97,22 +97,22 @@ export const darkTheme: Theme = {
 export const lightTheme: Theme = {
   name: 'light',
   colors: {
-    primary: '#7C3AED',        // Darker violet for light mode
-    primaryDark: '#5B21B6',
-    primaryLight: '#A78BFA',
-    secondary: '#8B5CF6',      // More purple instead of blue
-    accent: '#C026D3',         // More purple-pink accent
-    background: '#FAF5FF',     // Purple-tinted background
-    backgroundSecondary: '#FEFBFF',  // Subtle purple-tinted white
+    primary: '#2563EB',        // Professional blue
+    primaryDark: '#1D4ED8',
+    primaryLight: '#3B82F6',
+    secondary: '#059669',      // Emerald green
+    accent: '#7C3AED',         // Purple accent
+    background: '#F8FAFC',     // Slate background
+    backgroundSecondary: '#F1F5F9',
     surface: '#FFFFFF',
-    text: '#1F2937',
-    textSecondary: '#6B7280',
-    border: '#7C3AED30',
+    text: '#0F172A',
+    textSecondary: '#64748B',
+    border: '#E2E8F0',
     success: '#059669',
     error: '#DC2626',
     warning: '#D97706',
-    neonGlow: '#7C3AED',
-    gradient: 'linear-gradient(135deg, #7C3AED 0%, #8B5CF6 50%, #C026D3 100%)',
+    neonGlow: '#2563EB',
+    gradient: 'linear-gradient(135deg, #2563EB 0%, #7C3AED 100%)',
   },
   fonts: darkTheme.fonts,
   shadows: {

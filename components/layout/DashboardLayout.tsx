@@ -58,17 +58,24 @@ const Sidebar = styled(motion.aside)<{ $isOpen: boolean }>`
 `;
 
 const SidebarHeader = styled.div`
-  padding: ${({ theme }) => theme.spacing.lg};
+  padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.lg};
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
   display: flex;
   align-items: center;
   justify-content: space-between;
+  min-height: 80px;
 `;
 
 const LogoContainer = styled(Link)`
   display: flex;
   align-items: center;
   cursor: pointer;
+
+  img {
+    max-width: 140px;
+    height: auto;
+    object-fit: contain;
+  }
 `;
 
 const CloseButton = styled.button`
@@ -320,18 +327,18 @@ const LogoutButton = styled.button`
   }
 `;
 
-// Help Card - Floating Card Design
+// Help Card - Positioned next to Help button
 const HelpCard = styled(motion.div)`
   position: fixed;
-  bottom: 1.5rem;
-  left: 1.5rem;
+  left: 300px;
+  bottom: 180px;
   background: ${({ theme }) => theme.colors.surface};
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   padding: ${({ theme }) => theme.spacing.lg};
   width: 320px;
-  z-index: 100;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  z-index: 1001;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
 
   @media (max-width: 968px) {
     left: 1rem;
