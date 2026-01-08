@@ -111,6 +111,9 @@ const VerificationPage = () => {
 
     // DON'T send form data - just call the backend to mark as pending
     try {
+      console.log('Submitting verification with token:', token ? 'Token exists' : 'NO TOKEN');
+      console.log('API URL:', `${API_URL}/auth/submit-verification`);
+
       const response = await fetch(`${API_URL}/auth/submit-verification`, {
         method: 'POST',
         headers: {
@@ -119,14 +122,23 @@ const VerificationPage = () => {
         },
       });
 
+      console.log('Response status:', response.status);
+      console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+
       const data = await response.json();
+      console.log('Response data:', data);
 
       if (response.ok && data.success) {
         // Success - backend marked user as pending
         // Keep showing the success screen
       } else {
         // Error - show error message or redirect back
-        alert(data.message || 'Failed to submit verification');
+        console.error('Verification failed:', {
+          status: response.status,
+          statusText: response.statusText,
+          data: data
+        });
+        alert(data.message || data.error || 'Failed to submit verification');
         setIsProcessing(false);
         router.push('/dashboard');
       }
@@ -149,7 +161,7 @@ const VerificationPage = () => {
     <DashboardLayout>
       <Container>
         <ContentWrapper>
-          {!isProcessing ? (
+          {!isProcessing && (
           <Card
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -408,7 +420,8 @@ const VerificationPage = () => {
               </ContinueButton>
             </Footer>
           </Card>
-        ) : (
+        )}
+          {isProcessing && (
           <SuccessCard
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
