@@ -12,7 +12,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://www.server.davspay.c
 
 const VerificationPage = () => {
   const router = useRouter();
-  const { user, token, isAuthenticated, loading } = useAuth();
+  const { user, token, isAuthenticated, loading, updateUser } = useAuth();
   const [currentPage, setCurrentPage] = useState(1);
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -130,6 +130,13 @@ const VerificationPage = () => {
 
       if (response.ok && data.success) {
         // Success - backend marked user as pending
+        // Update user in context with the new verification status
+        if (data.data && data.data.user) {
+          updateUser({
+            ...user!,
+            verification_status: data.data.user.verification_status
+          });
+        }
         // Keep showing the success screen
       } else {
         // Error - show error message or redirect back

@@ -163,8 +163,8 @@ def register():
         cursor.close()
         conn.close()
 
-        # Generate access token
-        access_token = create_access_token(identity=new_user['id'])
+        # Generate access token (convert ID to string for JWT)
+        access_token = create_access_token(identity=str(new_user['id']))
 
         return jsonify({
             'success': True,
@@ -246,8 +246,8 @@ def login():
                 'message': 'Invalid email or password'
             }), 401
 
-        # Generate access token
-        access_token = create_access_token(identity=user['id'])
+        # Generate access token (convert ID to string for JWT)
+        access_token = create_access_token(identity=str(user['id']))
 
         return jsonify({
             'success': True,
@@ -277,7 +277,7 @@ def login():
 def get_current_user():
     """Get current user profile"""
     try:
-        current_user_id = get_jwt_identity()
+        current_user_id = int(get_jwt_identity())
 
         # Connect to database
         conn = get_db_connection()
@@ -333,7 +333,7 @@ def get_current_user():
 def update_profile():
     """Update user profile"""
     try:
-        current_user_id = get_jwt_identity()
+        current_user_id = int(get_jwt_identity())
         data = request.get_json()
 
         # Connect to database

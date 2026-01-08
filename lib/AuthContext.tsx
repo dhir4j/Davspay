@@ -19,6 +19,7 @@ interface AuthContextType {
   login: (email: string, password: string, rememberMe?: boolean) => Promise<boolean>;
   register: (data: RegisterData) => Promise<boolean>;
   logout: () => void;
+  updateUser: (user: User) => void;
   isAuthenticated: boolean;
   loading: boolean;
 }
@@ -139,6 +140,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  const updateUser = (updatedUser: User) => {
+    setUser(updatedUser);
+    // Update stored user data
+    const storedInLocal = localStorage.getItem('davspay_token');
+    if (storedInLocal) {
+      localStorage.setItem('davspay_user', JSON.stringify(updatedUser));
+    } else {
+      sessionStorage.setItem('davspay_user', JSON.stringify(updatedUser));
+    }
+  };
+
   const logout = () => {
     setUser(null);
     setToken(null);
@@ -157,6 +169,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     login,
     register,
     logout,
+    updateUser,
     isAuthenticated: !!user && !!token,
     loading,
   };
