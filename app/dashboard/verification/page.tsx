@@ -46,17 +46,17 @@ const VerificationPage = () => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.4 }}
             >
-              <SuccessIconWrapper>
-                <FiClock size={64} />
-              </SuccessIconWrapper>
+              <SuccessIcon>
+                <FiClock />
+              </SuccessIcon>
               <SuccessTitle>Verification Pending</SuccessTitle>
-              <SuccessMessage>
+              <SuccessText>
                 Your verification request has been submitted successfully.
                 Your account is currently under review by our team.
-              </SuccessMessage>
-              <CompleteButton onClick={() => router.push('/dashboard')}>
+              </SuccessText>
+              <SuccessButton onClick={() => router.push('/dashboard')}>
                 Back to Dashboard
-              </CompleteButton>
+              </SuccessButton>
             </SuccessCard>
           </ContentWrapper>
         </Container>
