@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { FiClock, FiRefreshCw, FiDownload, FiFilter } from 'react-icons/fi';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import Button from '@/components/ui/Button';
+import VerificationRequired from '@/components/VerificationRequired';
 
 const PageHeader = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing.xl};
@@ -97,7 +98,8 @@ const EmptyState = styled.div`
 
 export default function RefundsPage() {
   return (
-    <DashboardLayout>
+    <VerificationRequired>
+      <DashboardLayout>
       <PageHeader>
         <PageTitle>Refunds</PageTitle>
         <PageSubtitle>Manage and track all refund transactions</PageSubtitle>
@@ -144,5 +146,6 @@ export default function RefundsPage() {
         </EmptyState>
       </Card>
     </DashboardLayout>
+    </VerificationRequired>
   );
 }

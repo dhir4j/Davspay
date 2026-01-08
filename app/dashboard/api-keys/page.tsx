@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { FiKey, FiEye, FiEyeOff, FiCopy, FiCheckCircle, FiPlus, FiTrash2, FiAlertCircle } from 'react-icons/fi';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import Button from '@/components/ui/Button';
+import VerificationRequired from '@/components/VerificationRequired';
 import { useState } from 'react';
 
 const PageHeader = styled.div`
@@ -215,94 +216,96 @@ export default function APIKeysPage() {
   ];
 
   return (
-    <DashboardLayout>
-      <PageHeader>
-        <HeaderContent>
-          <PageTitle>API Keys</PageTitle>
-          <PageSubtitle>Manage your API keys for authenticating requests</PageSubtitle>
-        </HeaderContent>
-        <Button variant="primary" size="md">
-          <FiPlus style={{ marginRight: '0.5rem' }} />
-          Generate New Key
-        </Button>
-      </PageHeader>
+    <VerificationRequired>
+      <DashboardLayout>
+        <PageHeader>
+          <HeaderContent>
+            <PageTitle>API Keys</PageTitle>
+            <PageSubtitle>Manage your API keys for authenticating requests</PageSubtitle>
+          </HeaderContent>
+          <Button variant="primary" size="md">
+            <FiPlus style={{ marginRight: '0.5rem' }} />
+            Generate New Key
+          </Button>
+        </PageHeader>
 
-      <AlertBox>
-        <FiAlertCircle />
-        <AlertContent>
-          <strong>Keep your API keys secure!</strong>
-          <br />
-          Never share your secret keys publicly or commit them to version control. If you believe a key has been
-          compromised, delete it immediately and generate a new one.
-        </AlertContent>
-      </AlertBox>
+        <AlertBox>
+          <FiAlertCircle />
+          <AlertContent>
+            <strong>Keep your API keys secure!</strong>
+            <br />
+            Never share your secret keys publicly or commit them to version control. If you believe a key has been
+            compromised, delete it immediately and generate a new one.
+          </AlertContent>
+        </AlertBox>
 
-      <KeysGrid>
-        {apiKeys.map((key, index) => (
-          <KeyCard
-            key={key.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
-          >
-            <KeyHeader>
-              <KeyInfo>
-                <KeyLabel>
-                  <FiKey style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} />
-                  {key.label}
-                </KeyLabel>
-                <KeyDescription>{key.description}</KeyDescription>
-              </KeyInfo>
-              <KeyActions>
-                <DeleteButton>
-                  <FiTrash2 />
-                </DeleteButton>
-              </KeyActions>
-            </KeyHeader>
+        <KeysGrid>
+          {apiKeys.map((key, index) => (
+            <KeyCard
+              key={key.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+            >
+              <KeyHeader>
+                <KeyInfo>
+                  <KeyLabel>
+                    <FiKey style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} />
+                    {key.label}
+                  </KeyLabel>
+                  <KeyDescription>{key.description}</KeyDescription>
+                </KeyInfo>
+                <KeyActions>
+                  <DeleteButton>
+                    <FiTrash2 />
+                  </DeleteButton>
+                </KeyActions>
+              </KeyHeader>
 
-            <div style={{ marginBottom: '1rem' }}>
-              <MetadataLabel style={{ marginBottom: '0.5rem' }}>API Key</MetadataLabel>
-              <KeyValueBox>
-                <KeyValue $hidden={!visibleKeys[key.id + '_key']}>{key.value}</KeyValue>
-                <IconButton onClick={() => toggleKeyVisibility(key.id + '_key')}>
-                  {visibleKeys[key.id + '_key'] ? <FiEyeOff /> : <FiEye />}
-                </IconButton>
-                <IconButton onClick={() => copyToClipboard(key.value, key.id + '_key')}>
-                  {copiedKey === key.id + '_key' ? <FiCheckCircle /> : <FiCopy />}
-                </IconButton>
-              </KeyValueBox>
-            </div>
+              <div style={{ marginBottom: '1rem' }}>
+                <MetadataLabel style={{ marginBottom: '0.5rem' }}>API Key</MetadataLabel>
+                <KeyValueBox>
+                  <KeyValue $hidden={!visibleKeys[key.id + '_key']}>{key.value}</KeyValue>
+                  <IconButton onClick={() => toggleKeyVisibility(key.id + '_key')}>
+                    {visibleKeys[key.id + '_key'] ? <FiEyeOff /> : <FiEye />}
+                  </IconButton>
+                  <IconButton onClick={() => copyToClipboard(key.value, key.id + '_key')}>
+                    {copiedKey === key.id + '_key' ? <FiCheckCircle /> : <FiCopy />}
+                  </IconButton>
+                </KeyValueBox>
+              </div>
 
-            <div>
-              <MetadataLabel style={{ marginBottom: '0.5rem' }}>API Secret</MetadataLabel>
-              <KeyValueBox>
-                <KeyValue $hidden={!visibleKeys[key.id + '_secret']}>{key.secret}</KeyValue>
-                <IconButton onClick={() => toggleKeyVisibility(key.id + '_secret')}>
-                  {visibleKeys[key.id + '_secret'] ? <FiEyeOff /> : <FiEye />}
-                </IconButton>
-                <IconButton onClick={() => copyToClipboard(key.secret, key.id + '_secret')}>
-                  {copiedKey === key.id + '_secret' ? <FiCheckCircle /> : <FiCopy />}
-                </IconButton>
-              </KeyValueBox>
-            </div>
+              <div>
+                <MetadataLabel style={{ marginBottom: '0.5rem' }}>API Secret</MetadataLabel>
+                <KeyValueBox>
+                  <KeyValue $hidden={!visibleKeys[key.id + '_secret']}>{key.secret}</KeyValue>
+                  <IconButton onClick={() => toggleKeyVisibility(key.id + '_secret')}>
+                    {visibleKeys[key.id + '_secret'] ? <FiEyeOff /> : <FiEye />}
+                  </IconButton>
+                  <IconButton onClick={() => copyToClipboard(key.secret, key.id + '_secret')}>
+                    {copiedKey === key.id + '_secret' ? <FiCheckCircle /> : <FiCopy />}
+                  </IconButton>
+                </KeyValueBox>
+              </div>
 
-            <KeyMetadata>
-              <MetadataItem>
-                <MetadataLabel>Environment</MetadataLabel>
-                <MetadataValue>{key.environment}</MetadataValue>
-              </MetadataItem>
-              <MetadataItem>
-                <MetadataLabel>Created</MetadataLabel>
-                <MetadataValue>{key.created}</MetadataValue>
-              </MetadataItem>
-              <MetadataItem>
-                <MetadataLabel>Last Used</MetadataLabel>
-                <MetadataValue>{key.lastUsed}</MetadataValue>
-              </MetadataItem>
-            </KeyMetadata>
-          </KeyCard>
-        ))}
-      </KeysGrid>
-    </DashboardLayout>
+              <KeyMetadata>
+                <MetadataItem>
+                  <MetadataLabel>Environment</MetadataLabel>
+                  <MetadataValue>{key.environment}</MetadataValue>
+                </MetadataItem>
+                <MetadataItem>
+                  <MetadataLabel>Created</MetadataLabel>
+                  <MetadataValue>{key.created}</MetadataValue>
+                </MetadataItem>
+                <MetadataItem>
+                  <MetadataLabel>Last Used</MetadataLabel>
+                  <MetadataValue>{key.lastUsed}</MetadataValue>
+                </MetadataItem>
+              </KeyMetadata>
+            </KeyCard>
+          ))}
+        </KeysGrid>
+      </DashboardLayout>
+    </VerificationRequired>
   );
 }

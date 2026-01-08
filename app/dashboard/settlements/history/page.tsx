@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { FiClock, FiDollarSign, FiDownload, FiFilter } from 'react-icons/fi';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import Button from '@/components/ui/Button';
+import VerificationRequired from '@/components/VerificationRequired';
 
 const PageHeader = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing.xl};
@@ -97,7 +98,8 @@ const EmptyState = styled.div`
 
 export default function SettlementHistoryPage() {
   return (
-    <DashboardLayout>
+    <VerificationRequired>
+      <DashboardLayout>
       <PageHeader>
         <PageTitle>Settlement History</PageTitle>
         <PageSubtitle>Track all your payment settlements and transfers</PageSubtitle>
@@ -144,5 +146,6 @@ export default function SettlementHistoryPage() {
         </EmptyState>
       </Card>
     </DashboardLayout>
+    </VerificationRequired>
   );
 }

@@ -10,6 +10,7 @@ interface User {
   company_name?: string;
   phone?: string;
   is_verified: boolean;
+  verification_status?: string;
 }
 
 interface AuthContextType {

@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { FiClock, FiPhone, FiDownload } from 'react-icons/fi';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import Button from '@/components/ui/Button';
+import VerificationRequired from '@/components/VerificationRequired';
 
 const PageHeader = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing.xl};
@@ -97,7 +98,8 @@ const EmptyState = styled.div`
 
 export default function MobileToAccountPage() {
   return (
-    <DashboardLayout>
+    <VerificationRequired>
+      <DashboardLayout>
       <PageHeader>
         <PageTitle>Mobile to Account Linking</PageTitle>
         <PageSubtitle>Link mobile numbers to bank accounts for seamless UPI transactions</PageSubtitle>
@@ -138,5 +140,6 @@ export default function MobileToAccountPage() {
         </EmptyState>
       </Card>
     </DashboardLayout>
+    </VerificationRequired>
   );
 }

@@ -6,6 +6,7 @@ import { FiMail, FiUser, FiPhone, FiMessageSquare, FiCheckCircle } from 'react-i
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import Button from '@/components/ui/Button';
 import { useState } from 'react';
+import VerificationRequired from '@/components/VerificationRequired';
 
 const PageHeader = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing.xl};
@@ -225,7 +226,8 @@ export default function VirtualAccountDetailsPage() {
   };
 
   return (
-    <DashboardLayout>
+    <VerificationRequired>
+      <DashboardLayout>
       <PageHeader>
         <PageTitle>Virtual Account Details</PageTitle>
         <PageSubtitle>Request your virtual account details by filling out the contact form below</PageSubtitle>
@@ -340,5 +342,6 @@ export default function VirtualAccountDetailsPage() {
         </Form>
       </Card>
     </DashboardLayout>
+    </VerificationRequired>
   );
 }

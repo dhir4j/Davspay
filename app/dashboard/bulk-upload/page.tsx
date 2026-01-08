@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { FiUpload, FiDownload, FiFile, FiClock } from 'react-icons/fi';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import Button from '@/components/ui/Button';
+import VerificationRequired from '@/components/VerificationRequired';
 
 const PageHeader = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing.xl};
@@ -126,7 +127,8 @@ const EmptyState = styled.div`
 
 export default function BulkUploadPage() {
   return (
-    <DashboardLayout>
+    <VerificationRequired>
+      <DashboardLayout>
       <PageHeader>
         <PageTitle>Bulk Upload</PageTitle>
         <PageSubtitle>Upload and process transactions in bulk using CSV/Excel files</PageSubtitle>
@@ -178,5 +180,6 @@ export default function BulkUploadPage() {
         </EmptyState>
       </Card>
     </DashboardLayout>
+    </VerificationRequired>
   );
 }

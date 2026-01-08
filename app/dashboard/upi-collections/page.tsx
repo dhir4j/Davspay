@@ -16,6 +16,7 @@ import {
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import Button from '@/components/ui/Button';
 import { useState } from 'react';
+import VerificationRequired from '@/components/VerificationRequired';
 
 const PageHeader = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing.xl};
@@ -391,7 +392,8 @@ console.<span class="function">log</span>(<span class="string">'VPA:'</span>, up
   };
 
   return (
-    <DashboardLayout>
+    <VerificationRequired>
+      <DashboardLayout>
       <PageHeader>
         <PageTitle>UPI Collections</PageTitle>
         <PageSubtitle>Track and manage all your UPI collection requests</PageSubtitle>
@@ -469,5 +471,6 @@ console.<span class="function">log</span>(<span class="string">'VPA:'</span>, up
         </EmptyState>
       </TableCard>
     </DashboardLayout>
+    </VerificationRequired>
   );
 }

@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FiRefreshCw, FiCalendar, FiFilter, FiDownload, FiSearch } from 'react-icons/fi';
 import DashboardLayout from '@/components/layout/DashboardLayout';
+import VerificationRequired from '@/components/VerificationRequired';
 
 const PageHeader = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing.xl};
@@ -300,7 +301,8 @@ export default function TransactionHistoryPage() {
   };
 
   return (
-    <DashboardLayout>
+    <VerificationRequired>
+      <DashboardLayout>
       <PageHeader>
         <PageTitle>Transaction History</PageTitle>
         <PageSubtitle>View and manage your virtual account transactions.</PageSubtitle>
@@ -392,5 +394,6 @@ export default function TransactionHistoryPage() {
         </TableFooter>
       </TableCard>
     </DashboardLayout>
+    </VerificationRequired>
   );
 }

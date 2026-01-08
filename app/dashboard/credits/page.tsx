@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { FiDollarSign, FiTrendingUp, FiClock, FiDownload } from 'react-icons/fi';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 import Button from '@/components/ui/Button';
+import VerificationRequired from '@/components/VerificationRequired';
 
 const PageHeader = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing.xl};
@@ -120,7 +121,8 @@ const EmptyState = styled.div`
 
 export default function CreditsPage() {
   return (
-    <DashboardLayout>
+    <VerificationRequired>
+      <DashboardLayout>
       <PageHeader>
         <PageTitle>Credits Management</PageTitle>
         <PageSubtitle>Monitor and manage your API credits and usage</PageSubtitle>
@@ -174,5 +176,6 @@ export default function CreditsPage() {
         </EmptyState>
       </Card>
     </DashboardLayout>
+    </VerificationRequired>
   );
 }

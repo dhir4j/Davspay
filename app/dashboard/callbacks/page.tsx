@@ -7,6 +7,7 @@ import DashboardLayout from '@/components/layout/DashboardLayout';
 import Button from '@/components/ui/Button';
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/lib/AuthContext';
+import VerificationRequired from '@/components/VerificationRequired';
 
 const PageHeader = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing.xl};
@@ -312,7 +313,8 @@ app.post('/webhooks/davspay', express.json(), (req, res) => {
   };
 
   return (
-    <DashboardLayout>
+    <VerificationRequired>
+      <DashboardLayout>
       <PageHeader>
         <HeaderContent>
           <PageTitle>Webhooks & Callbacks</PageTitle>
@@ -403,5 +405,6 @@ app.post('/webhooks/davspay', express.json(), (req, res) => {
         </EmptyState>
       </Card>
     </DashboardLayout>
+    </VerificationRequired>
   );
 }

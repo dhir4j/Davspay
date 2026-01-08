@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { FiInfo, FiSave } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
 import DashboardLayout from '@/components/layout/DashboardLayout';
+import VerificationRequired from '@/components/VerificationRequired';
 
 const SettingsPage = () => {
   const router = useRouter();
@@ -41,7 +42,8 @@ const SettingsPage = () => {
   };
 
   return (
-    <DashboardLayout>
+    <VerificationRequired>
+      <DashboardLayout>
       <PageContainer>
         <PageHeader>
           <AccentLine />
@@ -227,6 +229,7 @@ const SettingsPage = () => {
         )}
       </PageContainer>
     </DashboardLayout>
+    </VerificationRequired>
   );
 };
 
